@@ -17,4 +17,10 @@ class UsersController extends AppController
         $users = $this->Paginator->paginate($this->Users->find());
         $this->set(compact('users'));
     }
+
+    public function view($user_name)
+    {
+        $user = $this->Users->findByUserName($user_name)->firstOrFail();
+        $this->set(compact('user'));
+    }
 }

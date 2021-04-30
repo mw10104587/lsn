@@ -9,7 +9,7 @@
 <?php foreach($users as $user): ?>
     <tr>
         <td>
-            <?= $this->Html->link($user->user_name) ?>
+            <?= $this->Html->link($user->user_name, ['action' => 'view', $user->user_name]) ?>
         </td>
         <td>
             <?= $user->created->format(DATE_RFC850) ?>
