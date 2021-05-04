@@ -12,15 +12,15 @@ class UsersController extends AppController
         $this->loadComponent('Paginator');
     }
 
-    public function index()
+    public function login()
     {
-        $users = $this->Paginator->paginate($this->Users->find());
-        $this->set(compact('users'));
-    }
-
-    public function view($user_name)
-    {
-        $user = $this->Users->findByUserName($user_name)->firstOrFail();
-        $this->set(compact('user'));
+        if ($this->request->is('post')) {
+            $user = $this->Auth->identify();
+            if ($user) {
+                $this->Auth->setUser($user);
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+            $this->Flash->error('Your username or password is incorrect.');
+        }
     }
 }
