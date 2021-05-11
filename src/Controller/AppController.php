@@ -49,7 +49,7 @@ class AppController extends Controller
             'authenticate' => [
                 'Form' => [
                     'fields' => [
-                        'username' => 'email',
+                        'username' => 'username',
                         'password' => 'password'
                     ]
                 ]
@@ -61,7 +61,7 @@ class AppController extends Controller
             'unauthorizedRedirect' => $this->referer() // If unauthorized, return them to page they were just on
         ]);
 
-        $this->Auth->allow(['display']);
+        $this->Auth->allow(['display', 'view', 'index']);
 
         /*
          * Enable the following component for recommended CakePHP security settings.

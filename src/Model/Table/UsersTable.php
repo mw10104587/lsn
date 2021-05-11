@@ -10,4 +10,12 @@ class UsersTable extends Table
     {
         $this->addBehavior('Timestamp');
     }
+
+    // public function findAuth(\Cake\ORM\Query $query, array $options)
+    // {
+    //     $query
+    //         ->select(['id', 'user_id', 'password']);
+
+    //     return $query;
+    // }
 }
