@@ -2,7 +2,7 @@
 <p><?= $this->Html->link("Add User", ['action' => 'add']) ?></p>
 <table>
     <tr>
-        <th>User ID</th>
+        <th>Username</th>
         <th>Identity</th>
         <th>Action</th>
         <th>Created</th>

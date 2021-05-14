@@ -25,7 +25,7 @@ class UsersController extends AppController
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
-                return $this->redirect($this->Auth->redirectUrl('/users'));
+                return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error('Your username or password is incorrect.');
         }
@@ -84,7 +84,7 @@ class UsersController extends AppController
 
         $user = $this->Users->findById($id)->firstOrFail();
         if ($this->Users->delete($user)) {
-            $this->Flash->success(__('The {0} article has been deleted.', $user->username));
+            $this->Flash->success(__('User {0} has been deleted.', $user->username));
             return $this->redirect(['action' => 'index']);
         }
     }
