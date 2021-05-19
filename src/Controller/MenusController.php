@@ -10,13 +10,12 @@ class MenusController extends AppController
         parent::initialize();
     }
 
-    public function admin()
+    public function index()
     {
-        
-    }
-
-    public function general()
-    {
-        
+        if(!$this->Auth->user()) {
+            $this->redirect($this->referer());
+        }
+        $identity = $this->Auth->user('identity');
+        $this->set(compact('identity'));
     }
 }

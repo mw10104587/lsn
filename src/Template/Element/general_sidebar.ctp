@@ -1,9 +1,9 @@
-<h1>LSN</h1>
-<div class="leftMenu">
+<h1><?= __('LSN') ?></h1>
+<div class="SideMenu">
   <ul>
     <li>Classroom
       <ul>
-        <li>Choose Area</li>
+        <li>Choose Classroom</li>
         <li>Enter / exit operation</li>
       </ul>
     </li>

@@ -1,9 +1,9 @@
 <h1><?= __('LSN') ?></h1>
-<div class="leftMenu">
+<div class="SideMenu">
   <ul>
     <li>Classroom
       <ul>
-        <li>Choose Area</li>
+        <li><?= $this->Html->link('Choose Classroom', ['controller' => 'classrooms', 'action' => 'index']); ?></li>
         <li>Enter / exit operation</li>
       </ul>
     </li>
