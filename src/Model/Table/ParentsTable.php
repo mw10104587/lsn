@@ -3,10 +3,10 @@ namespace App\Model\Table;
 
 use Cake\ORM\Table;
 
-class StudentsTable extends Table
+class ParentsTable extends Table
 {
     public function initialize(array $config)
     {
-        $this->belongsTo('Parents');
+        $this->hasOne('Students');
     }
 }
