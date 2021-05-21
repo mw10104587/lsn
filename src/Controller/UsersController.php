@@ -19,12 +19,30 @@ class UsersController extends AppController
         $this->redirect('/users/add');
     }
 
+    public function password()
+    {
+        $user = $this->Users->findById($this->Auth->user('id'))->firstOrFail();
+        $this->set(compact('user'));
+
+        if ($this->request->is(['post', 'put'])) {
+            $this->Users->patchEntity($user, $this->request->getData());
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('Your password has been updated.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('Unable to change your password.'));
+        }
+    }
+
     public function login()
     {
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
+                if($this->Auth->redirectUrl() == '/') {
+                    return $this->redirect('/menus');
+                }
                 return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error('Your username or password is incorrect.');
