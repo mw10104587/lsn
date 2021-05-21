@@ -1,8 +1,6 @@
 <?php
 namespace App\Controller;
 
-use Cake\I18n\Time;
-
 use App\Controller\AppController;
 
 class ClassroomsController extends AppController

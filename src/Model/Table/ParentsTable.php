@@ -7,6 +7,6 @@ class ParentsTable extends Table
 {
     public function initialize(array $config)
     {
-        $this->hasOne('Students');
+        $this->hasMany('Students');
     }
 }

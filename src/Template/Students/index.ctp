@@ -30,7 +30,7 @@
                     $result->subject,
                     $result->parent->parents_name, 
                     $result->parent->phone,
-                    $this->Html->link('操作')
+                    $this->Html->link('情報')
                 ]
             ]); ?>
         <?php endforeach; ?>

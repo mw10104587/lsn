@@ -1,6 +1,5 @@
 <h1>Edit User</h1>
     <?= $this->Form->create($user); ?>
-    <?= $this->Form->control('id', ['type' => 'hidden']); ?>
     <?= $this->Form->control('username', ['value' => $user->username]); ?>
     <?= $this->Form->label('Identity'); ?>
     <?= $this->Form->select('identity',

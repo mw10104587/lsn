@@ -9,12 +9,12 @@
     </li>
     <li>Enter / exit management
       <ul>
-        <li>List of entry / exit history</li>
+        <li><?= $this->Html->link('List of entry / exit history', ['controller' => 'enterexitlogs', 'action' => 'index']) ?></li>
       </ul>
     </li>
     <li>Student management
       <ul>
-        <li>List of student</li>
+        <li><?= $this->Html->link('List of student', ['controller' => 'students', 'action' => 'index']) ?></li>
       </ul>
     </li>
   </ul>
