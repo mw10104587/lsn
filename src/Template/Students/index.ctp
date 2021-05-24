@@ -2,7 +2,7 @@
 <h3>一覽</h3>
 
 <?= $this->Html->css('https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css'); ?>
-<table id="table" class="display">
+<table id="table">
     <thead>
         <?= $this->Html->tableHeaders([
             'No',

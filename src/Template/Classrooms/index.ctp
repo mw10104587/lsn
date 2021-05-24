@@ -4,5 +4,4 @@
     <li>
         <?= $this->Html->link($classroom->classroom_name, ['action' => 'enter_exit_operation', $classroom->classroom_name]); ?>
     </li>
-
 <?php endforeach?>

@@ -40,9 +40,13 @@ class UsersController extends AppController
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
+
+                // if user logins in login page, redirect to menu page after login
                 if($this->Auth->redirectUrl() == '/') {
                     return $this->redirect('/menus');
                 }
+                // or if user are sign out due to a longer idle state, redirect to user's
+                // original page after login
                 return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error('Your username or password is incorrect.');
