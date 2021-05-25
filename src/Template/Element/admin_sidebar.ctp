@@ -27,9 +27,9 @@
     </li>
     <li>Data upload
       <ul>
-        <li>Upload parents csv data</li>
-        <li>Upload parents email csv data</li>
-        <li>Upload student csv data</li>
+        <li><?= $this->Html->link('Upload parents csv data', ['controller' => 'files', 'action' => 'parents']) ?></li>
+        <li><?= $this->Html->link('Upload parents email csv data', ['controller' => 'files', 'action' => 'parentsEmail']) ?></li>
+        <li><?= $this->Html->link('Upload student csv data', ['controller' => 'files', 'action' => 'student']) ?></li>
       </ul>
     </li>
     <li>System configration
