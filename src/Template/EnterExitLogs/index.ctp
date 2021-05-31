@@ -9,7 +9,6 @@
             '名前',
             '入退室',
             '電話',
-            'Missing number',
             '操作']);
         ?>
     </thead>
@@ -21,7 +20,6 @@
                     $result->student_name,
                     $result->enter_or_exit,
                     $result->phone,
-                    '',
                     $this->Html->link('情報')
                 ]
             ]); ?>

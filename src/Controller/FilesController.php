@@ -27,6 +27,8 @@ class FilesController extends AppController
 
     public function ajax($type)
     {
+        // set this route only for receiving ajax call 
+        // and would not be rendered
         $this->render(false);
         
         $arr_file_types = ['text/csv'];
