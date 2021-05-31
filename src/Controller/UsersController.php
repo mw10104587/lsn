@@ -11,7 +11,7 @@ class UsersController extends AppController
 
         $this->loadComponent('Paginator');
 
-        $this->Auth->allow(['edit', 'add', 'register', 'logout']);
+        $this->Auth->allow(['logout']);
     }
 
     public function register()
@@ -36,6 +36,10 @@ class UsersController extends AppController
 
     public function login()
     {
+        // if user is in login state, redirect to menu page
+        if($this->Auth->user()) {
+            return $this->redirect('/menus'); 
+        }
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {

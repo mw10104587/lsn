@@ -1,5 +1,5 @@
-<h1><?= __('LSN') ?></h1>
-<div class="SideMenu">
+<div class='sidebar'>
+  <h1><?= __('LSN') ?></h1>
   <ul>
     <li>Classroom
       <ul>
@@ -17,7 +17,7 @@
         <li><?= $this->Html->link('List of student', ['controller' => 'students', 'action' => 'index']) ?></li>
       </ul>
     </li>
-    <li><?= $this->Html->link('User Management', ['controller' => 'users', 'action' => 'index']) ?>
+    <li>User Management
       <ul>
         <li><?= $this->Html->link('User List', ['controller' => 'users', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link('User Entry', ['controller' => 'users', 'action' => 'add']) ?></li>
@@ -34,7 +34,7 @@
     </li>
     <li>System configration
       <ul>
-        <li>Setting</li>
+        <li><?= $this->Html->link('Setting', ['controller' => 'settings', 'action' => 'index']) ?></li>
       </ul>
     </li>
   </ul>

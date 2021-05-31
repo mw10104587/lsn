@@ -28,6 +28,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('style.css') ?>
+    <?= $this->Html->css('custom.css') ?>
+    <?= $this->Html->css('fileUpload.css') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -37,19 +39,31 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <nav class="top-bar expanded" data-topbar role="navigation">
         <ul class="title-area large-3 medium-4 columns">
             <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
+                <h1><a href="/">LSN</a></h1>
             </li>
         </ul>
         <div class="top-bar-section">
             <ul class="right">
-                <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
-                <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
+                <li><a href="/users/logout">Logout</a></li>
             </ul>
         </div>
     </nav>
     <?= $this->Flash->render() ?>
     <div class="container clearfix">
-        <?= $this->fetch('content') ?>
+        <div class='page'>
+            <?php
+                if($login_user) {
+                    if($login_user['identity'] == 'admin') {
+                        echo $this->element('admin_sidebar');
+                    } else if($login_user['identity'] == 'general') {
+                        echo $this->element('general_sidebar');
+                    }
+                }
+            ?>
+            <div style='width:100%'>
+                <?= $this->fetch('content') ?>
+            </div>
+        </div>
     </div>
     <footer>
     </footer>

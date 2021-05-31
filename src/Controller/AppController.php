@@ -61,12 +61,17 @@ class AppController extends Controller
             'unauthorizedRedirect' => $this->referer() // If unauthorized, return them to page they were just on
         ]);
 
-        $this->Auth->allow(['display', 'view', 'index']);
+        $this->Auth->allow(['display']);
 
         /*
          * Enable the following component for recommended CakePHP security settings.
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
         //$this->loadComponent('Security');
+    }
+
+    public function beforeRender(Event $event)
+    {
+        $this->set('login_user', $this->Auth->user());
     }
 }
