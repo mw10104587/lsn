@@ -17,11 +17,16 @@
         <li><?= $this->Html->link('List of student', ['controller' => 'students', 'action' => 'index']) ?></li>
       </ul>
     </li>
+    <li>Security
+      <ul>
+        <li><?= $this->Html->link('Password Change', ['controller' => 'users', 'action' => 'password']) ?></li>
+      </ul>
+    </li>
     <li>User Management
       <ul>
         <li><?= $this->Html->link('User List', ['controller' => 'users', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link('User Entry', ['controller' => 'users', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link('User Update, Password Change', ['controller' => 'users', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link('User Update', ['controller' => 'users', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link('User Delete', ['controller' => 'users', 'action' => 'index']) ?></li>
       </ul>
     </li>

@@ -17,5 +17,10 @@
         <li><?= $this->Html->link('List of student', ['controller' => 'students', 'action' => 'index']) ?></li>
       </ul>
     </li>
+    <li>Security
+      <ul>
+        <li><?= $this->Html->link('Password Change', ['controller' => 'users', 'action' => 'password']) ?></li>
+      </ul>
+    </li>
   </ul>
 </div>

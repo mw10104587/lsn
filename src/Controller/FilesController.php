@@ -34,7 +34,7 @@ class FilesController extends AppController
         $arr_file_types = ['text/csv'];
         
         if (!(in_array($_FILES['file']['type'], $arr_file_types))) {
-            echo "Please choose a csv file";
+            $this->Flash->error(__('Please choose a csv file'));
             return;
         }
         
@@ -43,7 +43,7 @@ class FilesController extends AppController
         }
         
         move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $type . '_'. $_FILES['file']['name']);
-        
-        echo "File uploaded successfully.";
+
+        $this->Flash->success(__('File uploaded successfully'));
     }
 }

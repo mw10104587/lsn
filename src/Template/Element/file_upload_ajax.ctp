@@ -18,9 +18,8 @@
                 },
                 data: formData,
                 success: (response) => {
-                    alert(response);
                     $('#select-file').val('');
-                    $('#filename').text('');
+                    location.href = window.location.href;
                 },
             });
         }
