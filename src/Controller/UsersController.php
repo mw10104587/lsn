@@ -11,12 +11,24 @@ class UsersController extends AppController
 
         $this->loadComponent('Paginator');
 
-        $this->Auth->allow(['logout']);
+        $this->Auth->allow(['register', 'logout']);
     }
 
     public function register()
     {
-        $this->redirect('/users/add');
+        $user = $this->Users->newEntity();
+        if ($this->request->is('post')) {
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            
+            // set default identity as general
+            $user->identity = 'general';
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('You have been registered.'));
+                return $this->redirect(['action' => 'login']);
+            }
+            $this->Flash->error(__('Unable to finish you register.'));
+        }
+        $this->set('user', $user);
     }
 
     public function password()
