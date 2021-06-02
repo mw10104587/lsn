@@ -70,7 +70,7 @@ class AppController extends Controller
         //$this->loadComponent('Security');
     }
 
-    public function beforeRender(Event $event)
+    public function beforeFilter(Event $event)
     {
         $this->set('login_user', $this->Auth->user());
     }

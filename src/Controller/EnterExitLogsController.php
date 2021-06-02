@@ -12,7 +12,7 @@ class EnterExitLogsController extends AppController
 
     public function index()
     {
-        $results = $this->Enterexitlogs->find('all');
+        $results = $this->EnterExitLogs->find('all');
         $this->set(compact('results'));
     }
 }
