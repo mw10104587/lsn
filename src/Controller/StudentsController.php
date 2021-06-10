@@ -17,4 +17,11 @@ class StudentsController extends AppController
         $results = $this->Students->find('all')->contain(['Parents']);
         $this->set(compact('results'));
     }
+
+    public function information($student_id)
+    {
+        $this->render(false);
+        $student = $this->Students->findById($student_id)->contain(['Parents'])->firstOrFail();
+        echo $student;
+    }
 }
