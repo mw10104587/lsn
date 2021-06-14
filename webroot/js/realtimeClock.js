@@ -1,9 +1,9 @@
 function showTime(){
-    var d = new Date();
+    var d = new Date(new Date().toLocaleString("en-US", {timeZone: 'Asia/Tokyo'}));
     var year = d.getFullYear();
-    var month = d.getMonth();
+    var month = d.getMonth() + 1;
     var date = d.getDate();
-    var day =d.getDay();
+    var day = d.getDay();
     var hour = d.getHours();
     var min = d.getMinutes();
     var sec = d.getSeconds();
