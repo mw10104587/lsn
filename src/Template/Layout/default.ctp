@@ -52,13 +52,18 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <div class="container clearfix">
         <div class='page'>
             <?php
-                if($login_user) {
-                    if($login_user['identity'] == 'admin') {
-                        echo $this->element('admin_sidebar');
-                    } else if($login_user['identity'] == 'general') {
-                        echo $this->element('general_sidebar');
+                $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+                // enter exit operation page would not render side bar
+                if(!strpos($url, '/classrooms/enter-exit-operation')) {
+                    if($login_user) {
+                        if($login_user['identity'] == 'admin') {
+                            echo $this->element('admin_sidebar');
+                        } else if($login_user['identity'] == 'general') {
+                            echo $this->element('general_sidebar');
+                        }
                     }
                 }
+                
             ?>
             <div style='width:100%'>
                 <?= $this->fetch('content') ?>

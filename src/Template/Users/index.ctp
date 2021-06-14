@@ -1,12 +1,13 @@
 <h1>Users</h1>
 <p><?= $this->Html->link("Add User", ['action' => 'add']) ?></p>
 <table>
-    <tr>
-        <th>Username</th>
-        <th>Identity</th>
-        <th>Action</th>
-        <th>Created</th>
-    </tr>
+    <?= $this->Html->tableHeaders([
+        'Username',
+        'Identity',
+        'Action',
+        'Created',
+        'Updated']);
+    ?>
 
 <?php foreach($users as $user): ?>
     <tr>
@@ -26,6 +27,9 @@
         </td>
         <td>
             <?= $user->created->format(DATE_RFC850) ?>
+        </td>
+        <td>
+            <?= $user->modified->format(DATE_RFC850) ?>
         </td>
     </tr>
 <?php endforeach; ?>
