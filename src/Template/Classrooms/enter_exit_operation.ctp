@@ -1,11 +1,16 @@
+<div id="status" style='display: flex; width: 100%; height: 40px; justify-content: center; align-items: center; background: #AECFDF'></div>
 <h1><?= $classroom_name ?></h1>
 <div id='clock'></div>
 <?= $this->Html->script('realtimeClock'); ?>
 <div>
+    <a id='1'>test</a>
     <?php foreach($students as $student): ?>
-        <?= $this->Form->postLink(
+        <?= $this->Html->link(
             $student->student_name,
-            ['action' => 'enter_exit', $student->id])
+            [
+                'id' => $student->id,
+                'class' => 'enter_exit',
+            ])
         ?>
     <?php endforeach;?>
 </div>
@@ -20,3 +25,15 @@
 ?>
 <?= $this->Html->script('leaveButton'); ?>
 <?= $this->Html->css('scrollBarFix'); ?>
+
+<?= $this->Html->script('debounce'); ?>
+<script>
+    $(document).ready(() => {
+        $('.enter_exit').on('click', (e) => {
+            let csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
+            let studentId = e.target.id;
+            changeStatus(csrfToken, studentId);
+            debounce(() => insertLogs(csrfToken, studentId))();
+        })
+    });
+</script>

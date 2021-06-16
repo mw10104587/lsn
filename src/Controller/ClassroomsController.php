@@ -138,26 +138,4 @@ class ClassroomsController extends AppController
         }
         return $classrooms;
     }
-
-    public function enterExit($student_id)
-    {
-        $this->request->allowMethod(['post']);
-
-        $student = $this->Students->findById($student_id)->firstOrFail();
-        if ($this->request->is(['post', 'put'])) {
-            if ($student->status == 'stay') {
-                $student->status = 'leave';
-                $text = $student->student_name . ' status: leave';
-            } else {
-                $student->status = 'stay';
-                $text = $student->student_name . ' status: stay';
-            }
-            
-            if ($this->Students->save($student)) {
-                $this->Flash->success(__($text));
-                return $this->redirect($this->referer());
-            }
-            $this->Flash->error(__('Got something wrong :('));
-        }
-    }
 }
