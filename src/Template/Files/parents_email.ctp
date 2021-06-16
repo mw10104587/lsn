@@ -3,7 +3,6 @@
 
 <?= $this->element('file_upload_area'); ?>
 
-<?= $this->Html->script('https://code.jquery.com/jquery-3.3.1.js'); ?>
 <?= $this->element('file_upload_ajax', [
     'slug' => 'parents_email'
 ]); ?>

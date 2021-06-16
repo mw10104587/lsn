@@ -59,7 +59,6 @@
     <a href='#' rel='modal:close'>Close</a>
 </div>
 
-<?= $this->Html->script('https://code.jquery.com/jquery-3.3.1.js'); ?>
 <?= $this->Html->script('https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js'); ?>
 <?= $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js'); ?>
 <?= $this->Html->css('https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css'); ?>

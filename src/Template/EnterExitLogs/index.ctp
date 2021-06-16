@@ -27,7 +27,6 @@
     </tbody>
 </table>
 
-<?= $this->Html->script('https://code.jquery.com/jquery-3.3.1.js'); ?>
 <?= $this->Html->script('https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js'); ?>
 
 <script>

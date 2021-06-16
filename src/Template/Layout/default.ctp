@@ -31,6 +31,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->css('custom.css') ?>
     <?= $this->Html->css('fileUpload.css') ?>
 
+    <?= $this->Html->script('https://code.jquery.com/jquery-3.3.1.js'); ?>
+
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
