@@ -3,7 +3,6 @@
 <div id='clock'></div>
 <?= $this->Html->script('realtimeClock'); ?>
 <div>
-    <a id='1'>test</a>
     <?php foreach($students as $student): ?>
         <?= $this->Html->link(
             $student->student_name,
