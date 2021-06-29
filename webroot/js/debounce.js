@@ -8,7 +8,6 @@ function changeStatus(csrfToken, studentId) {
             'X-CSRF-Token': csrfToken
         },
         success: (res) => {
-            
             if(res !== 'Failure') {
                 res = JSON.parse(res);
                 console.log(res);

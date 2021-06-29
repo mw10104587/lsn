@@ -40,19 +40,41 @@ class ApisController extends AppController
     public function lineNotify($student_id)
     {
         $this->render(false);
-        // call line api
-
-        // insert to enter_exit_logs
+        
         $this->loadModel('Students');
         $this->loadModel('Parents');
         $this->loadModel('EnterExitLogs');
-
+        $this->loadModel('LineBotUsers');
+        
         $student_data = $this->Students->findById($student_id)->contain(['Parents'])->firstOrFail();
         $parent_id = $student_data->parent_id;
         
+        $line_bot_user = $this->LineBotUsers->findByParentId($parent_id)->firstOrFail();
+        $line_bot_id = $line_bot_user->line_bot_id;
+
+        // call line api
+        $url = 'http://localhost:3000/notify';
+        $data = array(
+            'line_bot_id' => $line_bot_id,
+            'student' => $student_data->student_name,
+            'status' => $student_data->status
+        );
+
+        // use key 'http' even if you send the request to https://...
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($data)
+            )
+        );
+        $context  = stream_context_create($options);
+        file_get_contents($url, false, $context);
+
         $parent = $this->Parents->findById($parent_id)->firstOrFail();
         $parent_phone = $parent->phone;
         
+        // // insert to enter_exit_logs
         $enter_exit_log = $this->EnterExitLogs->newEntity();
         $enter_exit_log->student_id = $student_data->id;
         $enter_exit_log->student_name = $student_data->student_name;

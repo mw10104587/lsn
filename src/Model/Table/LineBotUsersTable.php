@@ -3,7 +3,7 @@ namespace App\Model\Table;
 
 use Cake\ORM\Table;
 
-class EmailsTable extends Table
+class LineBotUsersTable extends Table
 {
     public function initialize(array $config)
     {
