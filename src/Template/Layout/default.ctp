@@ -20,14 +20,17 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>
         <?= $cakeDescription ?>:
         <?= $this->fetch('title') ?>
     </title>
     <?= $this->Html->meta('icon') ?>
 
-    <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('style.css') ?>
+    <!-- <?= $this->Html->css('base.css') ?> -->
+    <!-- <?= $this->Html->css('style.css') ?> -->
+    <?= $this->Html->css('login.css') ?>
+    <?= $this->Html->css('sidebar.css') ?>
     <?= $this->Html->css('custom.css') ?>
     <?= $this->Html->css('fileUpload.css') ?>
 
@@ -38,20 +41,15 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('script') ?>
 </head>
 <body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 columns">
-            <li class="name">
-                <h1><a href="/">LSN</a></h1>
-            </li>
-        </ul>
-        <div class="top-bar-section">
-            <ul class="right">
-                <li><a href="/users/logout">Logout</a></li>
-            </ul>
-        </div>
-    </nav>
+    <?php
+        $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+        if(!strpos($url, '/classrooms/enter-exit-operation')) {
+            echo $this->element('navbar');
+        } 
+    ?>
+
     <?= $this->Flash->render() ?>
-    <div class="container clearfix">
+    <div class="container-fluid" style="height:90%; overflow: hidden">
         <div class='page'>
             <?php
                 $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
@@ -67,12 +65,13 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 }
                 
             ?>
-            <div style='width:100%'>
+            <div style='width:100%; height:100%; margin-top: 10px'>
                 <?= $this->fetch('content') ?>
             </div>
         </div>
     </div>
     <footer>
     </footer>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
 </html>

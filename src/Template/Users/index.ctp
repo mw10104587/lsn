@@ -1,13 +1,25 @@
-<h1>Users</h1>
-<p><?= $this->Html->link("Add User", ['action' => 'add']) ?></p>
-<table>
-    <?= $this->Html->tableHeaders([
-        'Username',
-        'Identity',
-        'Action',
-        'Created',
-        'Updated']);
-    ?>
+<h1>User List</h1>
+<?= $this->Html->link("Add User",
+        [ 'action' => 'add' ],
+        [
+            'class' => 'w-15 btn btn-primary',
+            'role' => 'button' 
+        ]
+    )
+?>
+<table class="table table-striped table-hover" style='vertical-align: middle;'>
+    <thead>
+        <?= $this->Html->tableHeaders(
+            [
+                'Username',
+                'Identity',
+                'Action',
+                'Created',
+                'Updated'
+            ]
+        );
+        ?>
+    </thead>
 
 <?php foreach($users as $user): ?>
     <tr>

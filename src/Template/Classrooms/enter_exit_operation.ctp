@@ -4,13 +4,16 @@
 <?= $this->Html->script('realtimeClock'); ?>
 <div>
     <?php foreach($students as $student): ?>
-        <?= $this->Html->link(
-            $student->student_name,
-            [
-                'id' => $student->id,
-                'class' => 'enter_exit',
-            ])
-        ?>
+        <p>
+            <?= $this->Html->link(
+                $student->student_name,
+                [
+                    'id' => $student->id,
+                    'class' => 'enter_exit',
+                    'role' => 'button'
+                ])
+            ?>
+        </p>
     <?php endforeach;?>
 </div>
 
@@ -19,9 +22,10 @@
     [
         'id' => 'leave',
         'onclick' => 'leave()',
-        'style' => 'position: absolute; left:90%; top: 90%; height: 80px;'
+        'style' => 'position: absolute; bottom: 0; right: 0; height: 150px; width: 150px'
     ])
 ?>
+
 <?= $this->Html->script('leaveButton'); ?>
 <?= $this->Html->css('scrollBarFix'); ?>
 
