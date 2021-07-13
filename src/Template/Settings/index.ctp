@@ -41,13 +41,13 @@
     ])
 ?>
 <div class="mb-3 row">
-    <?= $this->Form->label('calander_url', '対象カレンダー',
+    <?= $this->Form->label('calendar_id', '対象カレンダー',
         [ 'class' => 'col-sm-2 col-form-label' ])
     ?>
     <div class="col-sm-10">
-        <?= $this->Form->textarea('calander_url',
+        <?= $this->Form->textarea('calendar_id',
             [
-                'label' => 'calander_url',
+                'label' => 'calendar_id',
                 'class' => 'form-control',
                 'rows' => 4,
             ])

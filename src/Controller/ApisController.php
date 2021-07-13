@@ -68,13 +68,13 @@ class ApisController extends AppController
                 'content' => http_build_query($data)
             )
         );
-        $context  = stream_context_create($options);
+        $context = stream_context_create($options);
         file_get_contents($url, false, $context);
 
         $parent = $this->Parents->findById($parent_id)->firstOrFail();
         $parent_phone = $parent->phone;
         
-        // // insert to enter_exit_logs
+        // insert to enter_exit_logs
         $enter_exit_log = $this->EnterExitLogs->newEntity();
         $enter_exit_log->student_id = $student_data->id;
         $enter_exit_log->student_name = $student_data->student_name;

@@ -10,7 +10,6 @@ function changeStatus(csrfToken, studentId) {
         success: (res) => {
             if(res !== 'Failure') {
                 res = JSON.parse(res);
-                console.log(res);
                 $('#status').text(res.studentName + ' status: ' + res.status);
             }
         }, 

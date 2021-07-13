@@ -110,22 +110,22 @@ class FilesController extends AppController
                                     $student->id = $line[$c];
                                     break;
                                 case 2:
-                                    $student-> student_name = $line[$c];
+                                    $student->student_name = $line[$c];
                                     break;
                                 case 3:
-                                    $student-> furigana = $line[$c];
+                                    $student->furigana = $line[$c];
                                     break;
                                 case 4:
-                                    $student-> school_year= $line[$c];
+                                    $student->school_year= $line[$c];
                                     break;
                                 case 5:
-                                    $student-> classroom = $line[$c];
+                                    $student->classroom = $line[$c];
                                     break;
                                 case 6:
-                                    $student-> class = $line[$c];
+                                    $student->class = $line[$c];
                                     break;
                                 case 7:
-                                    $student-> subject = $line[$c];
+                                    $student->subject = $line[$c];
                                     break;
                             }
                         }
@@ -143,7 +143,6 @@ class FilesController extends AppController
                 }
             } 
             else if($type == 'parents_email') {
-                echo "in";
                 $email = $this->Emails->newEntities($data);
                 if($this->Emails->saveMany($email)) {
                     $this->Flash->success(__('File uploaded successfully'));

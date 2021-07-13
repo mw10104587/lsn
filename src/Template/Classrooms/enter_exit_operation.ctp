@@ -2,15 +2,17 @@
 <h1><?= $classroom_name ?></h1>
 <div id='clock'></div>
 <?= $this->Html->script('realtimeClock'); ?>
-<div>
+<div class="mt-2 d-flex align-content-start flex-wrap">
+    <?php if(empty($students)): ?>
+        <p>There is no student.</p>
+    <?php endif; ?>
     <?php foreach($students as $student): ?>
         <p>
-            <?= $this->Html->link(
+            <?= $this->Form->button(
                 $student->student_name,
                 [
                     'id' => $student->id,
-                    'class' => 'enter_exit',
-                    'role' => 'button'
+                    'class' => 'enter_exit me-3 w-15 btn btn-lg btn-outline-primary',
                 ])
             ?>
         </p>

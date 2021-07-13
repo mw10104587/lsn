@@ -40,14 +40,23 @@ class ClassroomsController extends AppController
 
         foreach ($events as $event) {
             $start = $event->start->dateTime;
-            print($event->getSummary());
-            // if (!empty($start)) {
+            if (!empty($start)) {
+                $student_name = $event->getSummary();
                 
-            //     $student_name = $event->getSummary();
-            //     $student = $this->Students->findByStudentName($student_name)->firstOrFail();
-            //     array_push($students, $student);
-            // }
+                $query = $this->Students->findByStudentName($student_name);
+                // if student's data isn't in database, insert it
+                if ($query->isEmpty()){
+                    $student = $this->Students->newEntity();
+                    $student->student_name = $student_name;
+                    $student->created = date("Y-m-d H:i:s");
+                    $student->modified = date("Y-m-d H:i:s");
+                    $this->Students->save($student);
+                }
+                $student = $this->Students->findByStudentName($student_name)->firstOrFail();
+                array_push($students, $student);
+            }
         }
+
         $this->set(compact('classroom_name'));
         $this->set(compact('students'));
         $this->set(compact('events'));
@@ -116,26 +125,18 @@ class ClassroomsController extends AppController
 
     private function getClassrooms()
     {
+        $this->loadModel('Settings');
         // Get the API client and construct the service object.
         $client = $this->getClient();
         $service = new \Google_Service_Calendar($client);
 
-        $calendar_list = $service->calendarList->listCalendarList();
         $classrooms = array();
-        while(true) {
-            foreach ($calendar_list->getItems() as $calendar_list_entry) {
-                $classroom_name = $calendar_list_entry->getSummary();
-                $calendar_id = $calendar_list_entry->getId();
-                $classrooms[$calendar_id] = $classroom_name;
-            }
-            $page_token = $calendar_list->getNextPageToken();
-            if ($page_token) {
-                $opt_params = array('pageToken' => $page_token);
-                $calendar_list = $service->calendar_list->listCalendarList($opt_params);
-            } else {
-                break;
-            }
+        $calendar_list = $this->Settings->find();
+        
+        foreach($calendar_list as $calendar) {
+            $classrooms[$calendar->calendar_id] = $calendar->memo;
         }
+
         return $classrooms;
     }
 }
