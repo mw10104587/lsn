@@ -3,6 +3,15 @@
 <div id='clock'></div>
 <?= $this->Html->script('realtimeClock'); ?>
 <div class="mt-2 d-flex align-content-start flex-wrap">
+    <p>
+        <?= $this->Form->button(
+            'test_student',
+            [
+                'id' => 1,
+                'class' => 'enter_exit me-3 w-15 btn btn-lg btn-outline-primary',
+            ])
+        ?>
+    </p>
     <?php if(empty($students)): ?>
         <p>There is no student.</p>
     <?php endif; ?>
@@ -38,7 +47,7 @@
             let csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
             let studentId = e.target.id;
             changeStatus(csrfToken, studentId);
-            debounce(() => insertLogs(csrfToken, studentId))();
+            debounce(() => lineNotify(csrfToken, studentId))();
         })
     });
 </script>

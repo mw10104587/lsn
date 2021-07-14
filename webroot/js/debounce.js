@@ -16,7 +16,7 @@ function changeStatus(csrfToken, studentId) {
     })
 }
 
-function insertLogs(csrfToken, studentId) {
+function lineNotify(csrfToken, studentId) {
     $.ajax({
         method: 'POST',
         url: '/apis/lineNotify/' + studentId,
@@ -26,7 +26,9 @@ function insertLogs(csrfToken, studentId) {
             'X-CSRF-Token': csrfToken
         },
         success: (res) => {
-            console.log(res);
+            if(res !== 'Successfully insert the log.') {
+                alert(res);
+            }
         },
     });
 }
