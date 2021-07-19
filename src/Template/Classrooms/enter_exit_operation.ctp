@@ -3,15 +3,6 @@
 <div id='clock'></div>
 <?= $this->Html->script('realtimeClock'); ?>
 <div class="mt-2 d-flex align-content-start flex-wrap">
-    <p>
-        <?= $this->Form->button(
-            'test_student',
-            [
-                'id' => 1,
-                'class' => 'enter_exit me-3 w-15 btn btn-lg btn-outline-primary',
-            ])
-        ?>
-    </p>
     <?php if(empty($students)): ?>
         <p>There is no student.</p>
     <?php endif; ?>
@@ -33,7 +24,7 @@
     [
         'id' => 'leave',
         'onclick' => 'leave()',
-        'style' => 'position: absolute; bottom: 0; right: 0; height: 150px; width: 150px'
+        'style' => 'position: absolute; bottom: 0; right: 0; height: 150px; width: 150px; display: none;'
     ])
 ?>
 

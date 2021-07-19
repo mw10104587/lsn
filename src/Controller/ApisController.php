@@ -55,7 +55,7 @@ class ApisController extends AppController
             $line_bot_id = $line_bot_user->line_bot_id;
     
             // call line api
-            $url = 'http://localhost:3000/notify';
+            $url = 'https://lsn-line-chatbot.herokuapp.com/notify';
             $data = array(
                 'line_bot_id' => $line_bot_id,
                 'student' => $student_data->student_name,
