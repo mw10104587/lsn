@@ -4,6 +4,7 @@
 <?= $this->Html->script('realtimeClock'); ?>
 <div class="mt-2 d-flex align-content-start flex-wrap">
     <?php if(empty($students)): ?>
+        <? echo debug($students); ?>
         <p>There is no student.</p>
     <?php endif; ?>
     <?php foreach($students as $student): ?>
@@ -17,6 +18,7 @@
             ?>
         </p>
     <?php endforeach;?>
+    <? echo debug($students); ?>
 </div>
 
 <?= $this->Form->button(
