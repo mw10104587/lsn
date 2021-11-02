@@ -1,10 +1,10 @@
 <h1><?= __('Choose Classroom') ?></h1>
-<?php foreach($classrooms as $calendar_id => $classroom_name): ?>
+<?php foreach($classrooms as $calendar_id => $calendar_tuple /* [calendar_id, calendar_description]*/): ?>
     <p>
-        <?= $this->Html->link($classroom_name,
+        <?= $this->Html->link($calendar_tuple[1],
             [
                 'action' => 'enter_exit_operation',
-                $calendar_id, $classroom_name
+                $calendar_id, $calendar_tuple[1]
             ],
             [
                 'class' => 'w-15 btn btn-lg btn-primary',

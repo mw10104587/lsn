@@ -17,15 +17,12 @@ class ClassroomsController extends AppController
 
     public function index()
     {
-        $classrooms = $this->getClassrooms();
+        $classrooms = $this->getCalendarIDsAndNamesTuple();
         $this->set(compact('classrooms'));
     }
 
     public function enterExitOperation($calendar_id, $classroom_name)
     {
-
-        // echo('enterExitOperation');
-        debug('enterExitOperation');
         date_default_timezone_set("Asia/Tokyo");
         // $start = date('Y-m-d\TH:i:s\Z', strtotime('now'));
         // $end = date('Y-m-d\TH:i:s\Z', strtotime('+30 minutes'));
@@ -40,12 +37,6 @@ class ClassroomsController extends AppController
 
         // get events by calendar ID and optional parameters
         $events = $this->getEvent($calendar_id, $opt_params);
-        // slogg('$events', $events);
-        debug($events);
-        CakeLog::write('debug', sizeof($events));
-        $this->log('debug message','debug');
-        pr($events);
-
         $students = array();
 
         foreach ($events as $event) {
@@ -77,7 +68,7 @@ class ClassroomsController extends AppController
         $scopes = array('https://www.googleapis.com/auth/calendar.readonly');
         $client = new Google_Client();
         $client->setScopes($scopes);
-        $client->setAuthConfig('lsn-test-service-account-key.json');
+        $client->setAuthConfig('lsn-project-314612-a4b12fcefd67.json');
 
         return $client;
     }
@@ -91,20 +82,26 @@ class ClassroomsController extends AppController
         return $results;
     }
 
-    private function getClassrooms()
+    private function getCalendarIDsAndNamesTuple() /* [calendar_id, calendar_name] */
     {
         $this->loadModel('Settings');
         // Get the API client and construct the service object.
         $client = $this->getClient();
-        $service = new \Google_Service_Calendar($client);
+        $service = new \Google_Service_Calendar($this->getClient());
 
         $classrooms = array();
         $calendar_list = $this->Settings->find();
 
         foreach($calendar_list as $calendar) {
-            $classrooms[$calendar->calendar_id] = $calendar->memo;
+            $classrooms[$calendar->calendar_id] = $calendar->calendar_id;
         }
 
-        return $classrooms;
+        // TODO: Check whether API supports fetching multiple at the same time.
+        $get_calendar_name = function($calendar_id) use($service) {
+            $calendar = $service->calendars->get($calendar_id);
+            return [$calendar_id, $calendar->getSummary()];
+        };
+
+        return array_map($get_calendar_name, array_keys($classrooms));
     }
 }
