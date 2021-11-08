@@ -24,15 +24,13 @@ class ClassroomsController extends AppController
     public function enterExitOperation($calendar_id, $classroom_name)
     {
         date_default_timezone_set("Asia/Tokyo");
-        // $start = date('Y-m-d\TH:i:s\Z', strtotime('now'));
-        // $end = date('Y-m-d\TH:i:s\Z', strtotime('+30 minutes'));
 
         $opt_params = array(
             'maxResults' => 10,
             'orderBy' => 'startTime',
             'singleEvents' => true,
-            // 'timeMax' => date("Y-m-d\TH:i:s\Z", strtotime('tomorrow')),
-            // 'timeMin' => date("Y-m-d\TH:i:s\Z", strtotime('today')),
+            'timeMax' => date("Y-m-d\TH:i:s\Z", strtotime('tomorrow')),
+            'timeMin' => date("Y-m-d\TH:i:s\Z", strtotime('today')),
         );
 
         // get events by calendar ID and optional parameters

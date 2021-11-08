@@ -4,7 +4,7 @@
         <?= $this->Html->link($calendar_tuple[1],
             [
                 'action' => 'enter_exit_operation',
-                $calendar_id, $calendar_tuple[1]
+                $calendar_tuple[0], $calendar_tuple[1]
             ],
             [
                 'class' => 'w-15 btn btn-lg btn-primary',
