@@ -9,10 +9,10 @@
     <?php endif; ?>
     <?php foreach($classes as $class): ?>
         <p>
-            <?= $this->Html->link($class,
+            <?= $this->Html->link($class['class_name'],
                 [
                     'action' => 'enter_exit_operation',
-                    0, 0
+                    $calendar_id , $class['class_name']
                 ],
                 [
                     'class' => 'w-15 btn btn-lg btn-primary',

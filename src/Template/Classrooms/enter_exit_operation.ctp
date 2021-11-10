@@ -1,5 +1,5 @@
 <div id="status" style='display: flex; width: 100%; height: 40px; justify-content: center; align-items: center; background: #AECFDF'></div>
-<h1><?= $classroom_name ?></h1>
+<h1><?= $class_name ?></h1>
 <div id='clock'></div>
 <?= $this->Html->script('realtimeClock'); ?>
 <div class="mt-2 d-flex align-content-start flex-wrap">
@@ -10,9 +10,9 @@
     <?php foreach($students as $student): ?>
         <p>
             <?= $this->Form->button(
-                $student->student_name,
+                $student,
                 [
-                    'id' => $student->id,
+                    'id' => '',
                     'class' => 'enter_exit me-3 w-15 btn btn-lg btn-outline-primary',
                 ])
             ?>

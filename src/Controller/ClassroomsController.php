@@ -7,8 +7,6 @@ use Google_Service_Calendar;
 
 class ClassroomsController extends AppController
 {
-    private $todaysEvents;
-
     public function initialize()
     {
         parent::initialize();
@@ -29,11 +27,10 @@ class ClassroomsController extends AppController
     // the enter exit operation page.
     public function pickClass($calendar_id, $classroom_name) {
 
-        // Fetch all the events
         date_default_timezone_set("Asia/Tokyo");
 
-        $this->log(date("Y-m-d\TH:i:s\Z", strtotime('today 19:00')), 'error');
-        $this->log(date("Y-m-d\TH:i:s\Z", strtotime("today 8:00")),'error');
+        // $this->log(date("Y-m-d\TH:i:s\Z", strtotime('today 19:00')), 'error');
+        // $this->log(date("Y-m-d\TH:i:s\Z", strtotime("today 8:00")),'error');
 
         $opt_params = array(
             'singleEvents' => true, /* so we can fetch recurring events */
@@ -43,14 +40,14 @@ class ClassroomsController extends AppController
         );
 
         // get events by calendar ID and optional parameters
-        $this->events = $this->getEvent($calendar_id, $opt_params);
+        $events = $this->getEvent($calendar_id, $opt_params);
 
         // Find the ones that are whole day events
         // whole day events are clear representation of number of classes
         // that day.
         // PS. in Haga's case, they are also recurring events.
         $classes = array();
-        foreach ($this->events as $event) {
+        foreach ($events as $event) {
             $start_time = $event->start->dateTime;
 
             // we only handle the one with empty starting dateTime
@@ -67,55 +64,67 @@ class ClassroomsController extends AppController
                 }
 
                 $class_name = $event->getSummary();
-                array_push($classes, $class_name);
+                $class_object = array(
+                    'event_id' => $event->id,
+                    'class_name' => $class_name
+                );
+                array_push($classes, $class_object);
             }
         }
 
-        // $this->log($classes, 'error');
         $this->set(compact('classroom_name'));
         $this->set(compact('classes'));
+        $this->set(compact('calendar_id'));
 
 
     }
 
-    public function enterExitOperation($calendar_id, $classroom_name)
+    public function enterExitOperation($calendar_id, $event_title)
     {
-        date_default_timezone_set("Asia/Tokyo");
+        $class_name = $event_title;
+        // start time range looks something like: '16:30～17:30'
+        $start_time_range = explode(" ", $event_title)[1];
+        $start_time = explode('～', $start_time_range)[0];
 
         $opt_params = array(
-            'maxResults' => 10,
-            'orderBy' => 'startTime',
-            'singleEvents' => true,
-            'timeMax' => date("Y-m-d\TH:i:s\Z", strtotime('tomorrow')),
-            'timeMin' => date("Y-m-d\TH:i:s\Z", strtotime('today')),
+            'singleEvents' => true, /* so we can fetch recurring events */
+            // Assuming classes won't start before last day midnight
+            // and won't start after 7pm.
+            'timeMax' => date("Y-m-d\TH:i:s\Z", strtotime('today 19:00')),
+            'timeMin' => date("Y-m-d\TH:i:s\Z", strtotime("yesterday 23:59")),
+            'timeZone' => 'Asia/Tokyo'
         );
 
         // get events by calendar ID and optional parameters
         $events = $this->getEvent($calendar_id, $opt_params);
+        $expected_datetime = date("Y-m-d\TH:i:s\Z", strtotime("today ".$start_time));
+        $expected_datetime_tz_idx = strrpos($expected_datetime, 'Z');
+        $expected_datetime_without_tz = substr($expected_datetime, 0, $expected_datetime_tz_idx);
+
+        // Find the ones that are NOT whole day events
+        // PS. in Haga's case, they are also recurring events
         $students = array();
-
         foreach ($events as $event) {
-            $start = $event->start->dateTime;
-            if (!empty($start)) {
-                $student_name = $event->getSummary();
+            // we only handle the one with NON-empty starting dateTime
+            // since this means that this is NOT all-day event
+            if (!empty($event->start->dateTime)) {
 
-                $query = $this->Students->findByStudentName($student_name);
-                // if student's data isn't in database, insert it
-                if ($query->isEmpty()){
-                    $student = $this->Students->newEntity();
-                    $student->student_name = $student_name;
-                    $student->created = date("Y-m-d H:i:s");
-                    $student->modified = date("Y-m-d H:i:s");
-                    $this->Students->save($student);
+                $event_tz_pos = strrpos($event->start->dateTime, '+');
+                $event_datetime_without_tz = substr($event->start->dateTime, 0, $event_tz_pos);
+
+                // If the datetime doesn't align, we skip
+                if ($expected_datetime_without_tz !== $event_datetime_without_tz) {
+                    continue;
                 }
-                $student = $this->Students->findByStudentName($student_name)->firstOrFail();
-                array_push($students, $student);
+
+                $student_name_raw = $event->getSummary();
+                $parsed_student_name = self::parseStudentNameFromEventTitle($student_name_raw);
+                array_push($students, $parsed_student_name);
             }
         }
 
-        $this->set(compact('classroom_name'));
+        $this->set(compact('class_name'));
         $this->set(compact('students'));
-        $this->set(compact('events'));
     }
 
 
@@ -160,4 +169,10 @@ class ClassroomsController extends AppController
 
         return array_map($get_calendar_name, array_keys($classrooms));
     }
+
+    private function parseStudentNameFromEventTitle($event_title) {
+        $name_fractions = explode(' ', trim($event_title));
+        return $name_fractions[0].$name_fractions[1];
+    }
+
 }
