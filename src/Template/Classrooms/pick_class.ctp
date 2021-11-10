@@ -1,0 +1,38 @@
+<div id="status" style='display: flex; width: 100%; height: 40px; justify-content: center; align-items: center; background: #AECFDF'></div>
+<h1><?= $classroom_name ?></h1>
+<div id='clock'></div>
+<?= $this->Html->script('realtimeClock'); ?>
+<div class="mt-2 align-content-start flex-wrap">
+    <?php if(empty($classes)): ?>
+        <? echo debug($classes); ?>
+        <p>There's no classes today.</p>
+    <?php endif; ?>
+    <?php foreach($classes as $class): ?>
+        <p>
+            <?= $this->Html->link($class,
+                [
+                    'action' => 'enter_exit_operation',
+                    0, 0
+                ],
+                [
+                    'class' => 'w-15 btn btn-lg btn-primary',
+                    'role' => 'button'
+                ])
+            ?>
+        </p>
+        <?php endforeach?>
+    <? echo debug($students); ?>
+</div>
+
+
+<?= $this->Html->script('debounce'); ?>
+<script>
+    $(document).ready(() => {
+        $('.enter_exit').on('click', (e) => {
+            let csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
+            let studentId = e.target.id;
+            changeStatus(csrfToken, studentId);
+            debounce(() => lineNotify(csrfToken, studentId))();
+        })
+    });
+</script>

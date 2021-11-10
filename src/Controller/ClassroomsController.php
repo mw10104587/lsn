@@ -7,6 +7,8 @@ use Google_Service_Calendar;
 
 class ClassroomsController extends AppController
 {
+    private $todaysEvents;
+
     public function initialize()
     {
         parent::initialize();
@@ -19,6 +21,61 @@ class ClassroomsController extends AppController
     {
         $classrooms = $this->getCalendarIDsAndNamesTuple();
         $this->set(compact('classrooms'));
+    }
+
+    // Some days, there are multiple classes and that the same student
+    // might be in both classes. Adding this intermediate step so that
+    // the teacher actually get to pick the right class before showing
+    // the enter exit operation page.
+    public function pickClass($calendar_id, $classroom_name) {
+
+        // Fetch all the events
+        date_default_timezone_set("Asia/Tokyo");
+
+        $this->log(date("Y-m-d\TH:i:s\Z", strtotime('today 19:00')), 'error');
+        $this->log(date("Y-m-d\TH:i:s\Z", strtotime("today 8:00")),'error');
+
+        $opt_params = array(
+            'singleEvents' => true, /* so we can fetch recurring events */
+            'timeMax' => date("Y-m-d\TH:i:s\Z", strtotime('today 19:00')),
+            'timeMin' => date("Y-m-d\TH:i:s\Z", strtotime("yesterday 23:59")),
+            'timeZone' => 'Asia/Tokyo'
+        );
+
+        // get events by calendar ID and optional parameters
+        $this->events = $this->getEvent($calendar_id, $opt_params);
+
+        // Find the ones that are whole day events
+        // whole day events are clear representation of number of classes
+        // that day.
+        // PS. in Haga's case, they are also recurring events.
+        $classes = array();
+        foreach ($this->events as $event) {
+            $start_time = $event->start->dateTime;
+
+            // we only handle the one with empty starting dateTime
+            // since this means that this is all-day event
+            if (empty($start_time)) {
+                $start_date = $event->start->date;
+
+                // filter out start_date that's different from today
+                // There is an issue right now even if we provide
+                // timeMax and timeMin correctly, we still get events
+                // not in today.
+                if($start_date !== date("Y-m-d")) {
+                    continue;
+                }
+
+                $class_name = $event->getSummary();
+                array_push($classes, $class_name);
+            }
+        }
+
+        // $this->log($classes, 'error');
+        $this->set(compact('classroom_name'));
+        $this->set(compact('classes'));
+
+
     }
 
     public function enterExitOperation($calendar_id, $classroom_name)
@@ -60,6 +117,7 @@ class ClassroomsController extends AppController
         $this->set(compact('students'));
         $this->set(compact('events'));
     }
+
 
     private function getClient()
     {

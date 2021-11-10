@@ -3,7 +3,7 @@
     <p>
         <?= $this->Html->link($calendar_tuple[1],
             [
-                'action' => 'enter_exit_operation',
+                'action' => 'pick_class',
                 $calendar_tuple[0], $calendar_tuple[1]
             ],
             [
