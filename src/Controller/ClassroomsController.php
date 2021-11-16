@@ -119,7 +119,20 @@ class ClassroomsController extends AppController
 
                 $student_name_raw = $event->getSummary();
                 $parsed_student_name = self::parseStudentNameFromEventTitle($student_name_raw);
-                array_push($students, $parsed_student_name);
+
+                // Find student instance based on student name
+                $query = $this->Students->findByStudentName($parsed_student_name);
+                // if student's data isn't in database, insert it
+                if ($query->isEmpty()){
+                    $student = $this->Students->newEntity();
+                    $student->student_name = $parsed_student_name;
+                    $student->created = date("Y-m-d H:i:s");
+                    $student->modified = date("Y-m-d H:i:s");
+                    $this->Students->save($student);
+                }
+                $student = $this->Students->findByStudentName($parsed_student_name)->firstOrFail();
+                // array_push($students, $parsed_student_name);
+                array_push($students, $student);
             }
         }
 
@@ -172,7 +185,17 @@ class ClassroomsController extends AppController
 
     private function parseStudentNameFromEventTitle($event_title) {
         $name_fractions = explode(' ', trim($event_title));
-        return $name_fractions[0].$name_fractions[1];
-    }
+        $space_cleaned = $name_fractions[0].$name_fractions[1];
 
+        // There will be names like 水谷哈哈(みろく)
+        // notice that there's no space between the left parenthesis and
+        // the last character of the student name
+        // so we want to find the left parenthesis and remove
+        // whatever is behund it.
+        $left_par_idx = strrpos($space_cleaned, '(');
+        if($left_par_idx === false) {
+            return $space_cleaned;
+        }
+        return substr($space_cleaned, 0, $left_par_idx);
+    }
 }

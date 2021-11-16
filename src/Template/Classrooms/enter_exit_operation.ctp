@@ -10,9 +10,9 @@
     <?php foreach($students as $student): ?>
         <p>
             <?= $this->Form->button(
-                $student,
+                $student->student_name,
                 [
-                    'id' => '',
+                    'id' => $student->id,
                     'class' => 'enter_exit me-3 w-15 btn btn-lg btn-outline-primary',
                 ])
             ?>
