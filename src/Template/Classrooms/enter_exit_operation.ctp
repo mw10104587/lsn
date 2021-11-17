@@ -39,8 +39,6 @@
         $('.enter_exit').on('click', (e) => {
             let csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
             let studentId = e.target.id;
-
-            // enterExit(studentId);
             changeStatus(csrfToken, studentId);
             debounce(() => lineNotify(csrfToken, studentId))();
         })
