@@ -131,7 +131,6 @@ class ClassroomsController extends AppController
                     $this->Students->save($student);
                 }
                 $student = $this->Students->findByStudentName($parsed_student_name)->firstOrFail();
-                // array_push($students, $parsed_student_name);
                 array_push($students, $student);
             }
         }

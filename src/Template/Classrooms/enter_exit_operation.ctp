@@ -26,7 +26,7 @@
     [
         'id' => 'leave',
         'onclick' => 'leave()',
-        'style' => 'position: absolute; bottom: 0; right: 0; height: 150px; width: 150px; display: none;'
+        'style' => 'position: absolute; bottom: 0; right: 0; height: 150px; width: 150px; opacity: 0;'
     ])
 ?>
 
@@ -39,6 +39,8 @@
         $('.enter_exit').on('click', (e) => {
             let csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
             let studentId = e.target.id;
+
+            // enterExit(studentId);
             changeStatus(csrfToken, studentId);
             debounce(() => lineNotify(csrfToken, studentId))();
         })
