@@ -1,6 +1,14 @@
-<div id="status" style='display: flex; width: 100%; height: 40px; justify-content: center; align-items: center; background: #AECFDF'></div>
-<h1><?= $class_name ?></h1>
-<div id='clock'></div>
+<div id="status" style='display: flex; width: 100%; height: 40px; justify-content: center; align-items: center; background: #AECFDF'>
+</div>
+
+<div style='display: flex; width: 100%; height: 40px;'>
+    <div id='clock'></div>
+    <div style='margin-left: 20px;'><?= $classroom_name ?></div>
+    <div style='margin-left: 20px;'><?= $class_name ?></div>
+    <div style='margin-left: 20px;'>担当講師：</div>
+</div>
+
+
 <?= $this->Html->script('realtimeClock'); ?>
 <div class="mt-2 d-flex align-content-start flex-wrap">
     <?php if(empty($students)): ?>
