@@ -7,6 +7,6 @@ function leave() {
     }, 1000);
     let successToLeave = (click === 3) ? true : false;
     if(successToLeave){
-        window.location.replace('/classrooms');
+        window.history.back();
     }
 }
