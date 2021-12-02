@@ -15,10 +15,10 @@
         <? echo debug($students); ?>
         <p>There is no student.</p>
     <?php endif; ?>
-    <?php foreach($students as $student): ?>
+    <?php foreach($students as $index => $student): ?>
         <p>
             <?= $this->Form->button(
-                $student->student_name,
+                $student_raw_names[$index],
                 [
                     'id' => $student->id,
                     'class' => 'enter_exit me-3 w-15 btn btn-lg btn-outline-primary',
@@ -48,7 +48,7 @@
             let csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
             let studentId = e.target.id;
             changeStatus(csrfToken, studentId);
-            debounce(() => lineNotify(csrfToken, studentId))();
+            debounce(() => lineNotify(csrfToken, studentId, 'TEST_calendar_event_id'))();
         })
     });
 </script>

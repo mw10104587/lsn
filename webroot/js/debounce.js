@@ -12,12 +12,15 @@ function changeStatus(csrfToken, studentId) {
                 res = JSON.parse(res);
                 $('#status').text(res.studentName + ' status: ' + res.status);
             }
-        }, 
+        },
     })
 }
 
-function lineNotify(csrfToken, studentId) {
+function lineNotify(csrfToken, studentId, calendarEventId) {
     $.ajax({
+        data: {
+            calendar_event_id: calendarEventId
+        },
         method: 'POST',
         url: '/apis/lineNotify/' + studentId,
         contentType: false,

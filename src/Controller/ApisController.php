@@ -39,6 +39,10 @@ class ApisController extends AppController
 
     public function lineNotify($student_id)
     {
+
+        // $data = $this->request->getData();
+        // $this->log($data, 'error');
+
         $this->render(false);
 
         $this->loadModel('Students');
@@ -52,6 +56,9 @@ class ApisController extends AppController
         $enter_exit_log->student_id = $student_data->id;
         $enter_exit_log->student_name = $student_data->student_name;
         $enter_exit_log->parent_id = $parent_id;
+
+        // Add calendar event id
+        $enter_exit_log->calendar_event_id = $calendar_event_id;
 
         // I think we should be able to remove this field.
         $enter_exit_log->phone = '0800-090-000'; // TEMP

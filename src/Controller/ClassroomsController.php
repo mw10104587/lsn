@@ -13,6 +13,7 @@ class ClassroomsController extends AppController
 
         $this->loadComponent('Paginator');
         $this->loadModel('Students');
+        $this->loadModel('EnterExitLog');
     }
 
     public function index()
@@ -104,6 +105,18 @@ class ClassroomsController extends AppController
         // Find the ones that are NOT whole day events
         // PS. in Haga's case, they are also recurring events
         $students = array();
+
+        // An Array that stores the tri state of the button
+        // 1. To be checked in
+        // 2. Checked in already, to be checked out
+        // 3. Checked out, disabled.
+        $student_state = array();
+
+        // student names in the calendar event id is different
+        // so we have to show the full name, but use the parsed name
+        // for database query.
+        $student_raw_names = array();
+
         foreach ($events as $event) {
             // we only handle the one with NON-empty starting dateTime
             // since this means that this is NOT all-day event
@@ -132,12 +145,19 @@ class ClassroomsController extends AppController
                 }
                 $student = $this->Students->findByStudentName($parsed_student_name)->firstOrFail();
                 array_push($students, $student);
+                array_push($student_raw_names, $student_name_raw);
+
+                // check whether the student is logged and push the state
+
             }
         }
+
+        $this->log($student_raw_names, 'error');
 
         $this->set(compact('class_name'));
         $this->set(compact('students'));
         $this->set(compact('classroom_name'));
+        $this->set(compact('student_raw_names'));
     }
 
 
