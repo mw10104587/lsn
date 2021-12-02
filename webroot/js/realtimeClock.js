@@ -30,7 +30,7 @@ function showTime(){
         case 7:
             day='日';
             break;
-        default:   
+        default:
     }
 
     var MV = 'AM';
@@ -48,7 +48,8 @@ function showTime(){
 
     document.getElementById('clock').innerHTML =
         year + '年' + month + '月' + date + '日(' + day + ') ' +
-        hour + ':' + min + ':' + sec + MV;
+        hour + '時' + min + '分' + sec + '秒';
+    //  + MV;
 }
 
 showTime();
