@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Core\Exception\Exception;
 
 class FilesController extends AppController
 {
@@ -15,7 +16,7 @@ class FilesController extends AppController
 
     public function parents()
     {
-        
+
     }
 
     public function parentsEmail()
@@ -30,12 +31,12 @@ class FilesController extends AppController
 
     public function ajax($type)
     {
-        // set this route only for receiving ajax call 
+        // set this route only for receiving ajax call
         // and would not be rendered
         $this->render(false);
 
         $arr_file_types = ['text/csv'];
-        
+
         if (!(in_array($_FILES['file']['type'], $arr_file_types))) {
             $this->Flash->error(__('Please choose a csv file'));
             return;
@@ -46,104 +47,140 @@ class FilesController extends AppController
         $data = [];
         if (($handle = fopen($_FILES['file']['tmp_name'], "r")) !== FALSE) {
             while (($line = fgetcsv($handle, 1000, ",")) !== FALSE) {
-                $num = count($line);
+
+                // The first row is the header. We skip it.
+                if($row === 1) {
+                    $row++;
+                    continue;
+                }
+
+                $column_count = count($line);
                 $row++;
-                $element = [];
+
                 switch($type) {
                     case 'parents':
-                        for($c = 0; $c < $num; $c++) {
+                        if($column_count < 6) {
+                            throw new Exception('too little columns for parents table');
+                        }
+
+                        $parent = [];
+                        for($c = 0; $c < $column_count; $c++) {
                             // remove \ufeff
                             if($c == 0) {
                                 $line[$c] = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $line[$c]);
                             }
                             switch($c) {
                                 case 0:
-                                    $parent->id = $line[$c];
+                                    $parent['id'] = $line[$c];
                                     break;
                                 case 1:
-                                    $parent->parents_name = $line[$c];
+                                    $parent['parents_name'] = $line[$c];
                                     break;
                                 case 2:
-                                    $parent->phone = $line[$c];
+                                    $parent['phone'] = $line[$c];
                                     break;
                                 case 3:
-                                    $parent->address1 = $line[$c];
+                                    $parent['address1'] = $line[$c];
                                     break;
                                 case 4:
-                                    $parent->address2 = $line[$c];
+                                    $parent['address2'] = $line[$c];
                                     break;
                                 case 5:
-                                    $parent->address3 = $line[$c];
+                                    $parent['address3'] = $line[$c];
                                     break;
                             }
                         }
-                        $data[] = $element;
+                        $data[] = $parent;
                         break;
                     case 'parents_email':
-                        for($c = 0; $c < $num; $c++) {
+                        if($column_count < 2) {
+                            throw new Exception('too little columns for parent email table');
+                        }
+
+                        $parent_email = [];
+                        for($c = 0; $c < $column_count; $c++) {
                             // remove \ufeff
                             if($c == 0) {
                                 $line[$c] = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $line[$c]);
                             }
                             switch($c) {
                                 case 0:
-                                    $element['parent_id'] = $line[$c];
+                                    $parent_email['parent_id'] = $line[$c];
                                     break;
                                 case 1:
-                                    $element['email'] = $line[$c];
+                                    $parent_email['email'] = $line[$c];
                                     break;
                             }
                         }
-                        $data[] = $element;
+                        $data[] = $parent_email;
                         break;
                     case 'student':
-                        for($c = 0; $c < $num; $c++) {
+                        if($column_count < 8) {
+                            throw new Exception('too little columns for student table');
+                        }
+
+                        $student = [];
+                        for($c = 0; $c < $column_count; $c++) {
                             // remove \ufeff
                             if($c == 0) {
                                 $line[$c] = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $line[$c]);
                             }
                             switch($c) {
                                 case 0:
-                                    $student->parent_id = $line[$c];
+                                    $student['parent_id'] = $line[$c];
                                     break;
                                 case 1:
-                                    $student->id = $line[$c];
+                                    $student['id'] = $line[$c];
                                     break;
                                 case 2:
-                                    $student->student_name = $line[$c];
+                                    $student['student_name'] = $line[$c];
                                     break;
                                 case 3:
-                                    $student->furigana = $line[$c];
+                                    $student['student_furigana'] = $line[$c];
                                     break;
                                 case 4:
-                                    $student->school_year= $line[$c];
+                                    $student['school_year'] = $line[$c];
                                     break;
                                 case 5:
-                                    $student->classroom = $line[$c];
+                                    $student['classroom'] = $line[$c];
                                     break;
                                 case 6:
-                                    $student->class = $line[$c];
+                                    $student['class'] = $line[$c];
                                     break;
                                 case 7:
-                                    $student->subject = $line[$c];
+                                    $student['subject'] = $line[$c];
                                     break;
                             }
                         }
-                        $data[] = $element;
+                        $data[] = $student;
                         break;
                 }
             }
 
-            if($type == 'parent') {
+            if($type == 'parents') {
                 $parent = $this->Parents->newEntities($data);
                 if($this->Parents->saveMany($parent)) {
                     $this->Flash->success(__('File uploaded successfully'));
                 } else {
                     $this->Flash->error(__('File uploaded failed'));
                 }
-            } 
+            }
             else if($type == 'parents_email') {
-                $email = $this->Emails->newEntities($data);
+                // filter duplicate email
+                $email_set = array();
+                $filtered_data = [];
+                for($i = 0; $i < count($data); $i++) {
+                    $size_before_setting = count($email_set);
+                    // $this->log('size before: '.$size_before_setting, 'error');
+                    $email_set[$data[$i]['email']] = true;
+                    $size_after_setting = count($email_set);
+                    // $this->log('size after: '.$size_after_setting, 'error');
+                    if($size_after_setting == $size_before_setting + 1) {
+                        $filtered_data[] = $data[$i];
+                    }
+                }
+
+                $email = $this->Emails->newEntities($filtered_data);
                 if($this->Emails->saveMany($email)) {
                     $this->Flash->success(__('File uploaded successfully'));
                 } else {
@@ -156,7 +193,7 @@ class FilesController extends AppController
                     $this->Flash->success(__('File uploaded successfully'));
                 } else {
                     $this->Flash->error(__('File uploaded failed'));
-                } 
+                }
             }
             fclose($handle);
         }
