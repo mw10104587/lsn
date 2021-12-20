@@ -37,13 +37,15 @@ class ApisController extends AppController
         }
     }
 
+
     public function lineNotify($student_id)
     {
-
-        // $data = $this->request->getData();
-        // $this->log($data, 'error');
-
+        $this->autoRender = false;
         $this->render(false);
+
+        $this->log($this->request->getData('class_event_id'), 'error');
+        $class_event_id = $this->request->getData('class_event_id');
+        $this->log($class_event_id, 'error');
 
         $this->loadModel('Students');
         $this->loadModel('Parents');
@@ -58,7 +60,7 @@ class ApisController extends AppController
         $enter_exit_log->parent_id = $parent_id;
 
         // Add calendar event id
-        $enter_exit_log->calendar_event_id = $calendar_event_id;
+        $enter_exit_log->class_event_id = $class_event_id;
 
         // I think we should be able to remove this field.
         $enter_exit_log->phone = '0800-090-000'; // TEMP
@@ -66,9 +68,9 @@ class ApisController extends AppController
 
         if($this->EnterExitLogs->save($enter_exit_log)) {
             // $this->
-            echo 'Successfully insert the log.';
+            // echo 'Successfully insert the log.';
         } else {
-            echo 'Something got wrong.';
+            // echo 'Something got wrong.';
         }
 
         $query = $this->LineBotUsers->findByParentId($parent_id);
@@ -97,11 +99,14 @@ class ApisController extends AppController
             file_get_contents($url, false, $context);
             $parent = $this->Parents->findById($parent_id)->firstOrFail();
             $parent_phone = $parent->phone;
-
-
         }
         else {
-            echo 'no existing line bot id';
+            // echo 'no existing line bot id';
+            $this->log('no existin line bot id', 'debug');
         }
+
+
     }
+
+
 }

@@ -12,7 +12,7 @@
             <?= $this->Html->link($class['class_name'],
                 [
                     'action' => 'enter_exit_operation',
-                    $calendar_id , $class['class_name'], $classroom_name
+                    $calendar_id , $class['class_name'], $classroom_name, $class['event_id']
                 ],
                 [
                     'class' => 'w-15 btn btn-lg btn-primary',

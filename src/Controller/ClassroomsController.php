@@ -13,7 +13,7 @@ class ClassroomsController extends AppController
 
         $this->loadComponent('Paginator');
         $this->loadModel('Students');
-        $this->loadModel('EnterExitLog');
+        $this->loadModel('EnterExitLogs');
     }
 
     public function index()
@@ -36,7 +36,8 @@ class ClassroomsController extends AppController
         $opt_params = array(
             'singleEvents' => true, /* so we can fetch recurring events */
             'timeMax' => date("Y-m-d\TH:i:s\Z", strtotime('today 19:00')),
-            'timeMin' => date("Y-m-d\TH:i:s\Z", strtotime("yesterday 23:59")),
+            // 'timeMin' => date("Y-m-d\TH:i:s\Z", strtotime("yesterday 23:59")),
+            'timeMin' => date("Y-m-d\TH:i:s\Z", strtotime("yesterday 10:00")),
             'timeZone' => 'Asia/Tokyo'
         );
 
@@ -60,12 +61,15 @@ class ClassroomsController extends AppController
                 // There is an issue right now even if we provide
                 // timeMax and timeMin correctly, we still get events
                 // not in today.
-                if($start_date !== date("Y-m-d")) {
-                    continue;
-                }
+                // if($start_date !== date("Y-m-d")) {
+                //     continue;
+                // }
 
                 $class_name = $event->getSummary();
                 $class_object = array(
+                    // this event id should be logged into student enter
+                    // exit operation, so we can know whether they're
+                    // pre-enter, pre-exit or disabled.
                     'event_id' => $event->id,
                     'class_name' => $class_name
                 );
@@ -80,7 +84,11 @@ class ClassroomsController extends AppController
 
     }
 
-    public function enterExitOperation($calendar_id, $event_title, $classroom_name)
+    /*
+    event id, is the id of the ALL DAY event, that represents a class.
+    NOT a student, NOT a calendar.
+    */
+    public function enterExitOperation($calendar_id, $event_title, $classroom_name, $event_id)
     {
         $class_name = $event_title;
         // start time range looks something like: '16:30～17:30'
@@ -110,7 +118,7 @@ class ClassroomsController extends AppController
         // 1. To be checked in
         // 2. Checked in already, to be checked out
         // 3. Checked out, disabled.
-        $student_state = array();
+        $student_states = array();
 
         // student names in the calendar event id is different
         // so we have to show the full name, but use the parsed name
@@ -148,16 +156,33 @@ class ClassroomsController extends AppController
                 array_push($student_raw_names, $student_name_raw);
 
                 // check whether the student is logged and push the state
-
+                // $student_state_count = $this->EnterExitLogs->findByStudentName($parsed_student_name)->findByClassEventId($event_id)->count();
+                $student_state_count = $this->EnterExitLogs->findByClassEventIdAndStudentName($event_id, $parsed_student_name)->count();
+                $this->log('student state count: '.$student_state_count, 'error');
+                switch ($student_state_count) {
+                    case 1:
+                        array_push($student_states, 'READY_TO_EXIT');
+                        $this->log('ready to exit', 'error');
+                        break;
+                    case 2:
+                        array_push($student_states, 'LEFT');
+                        $this->log('left', 'error');
+                        break;
+                    case 0:
+                    default:
+                        array_push($student_states, 'READY_TO_ENTER');
+                        $this->log('ready to enter', 'error');
+                        break;
+                }
             }
         }
-
-        $this->log($student_raw_names, 'error');
 
         $this->set(compact('class_name'));
         $this->set(compact('students'));
         $this->set(compact('classroom_name'));
         $this->set(compact('student_raw_names'));
+        $this->set(compact('student_states'));
+        $this->set(compact('event_id'));
     }
 
 
@@ -166,7 +191,7 @@ class ClassroomsController extends AppController
         $scopes = array('https://www.googleapis.com/auth/calendar.readonly');
         $client = new Google_Client();
         $client->setScopes($scopes);
-        $client->setAuthConfig('lsn-project-314612-a4b12fcefd67.json');
+        $client->setAuthConfig('../lsn-project-314612-a4b12fcefd67.json');
 
         return $client;
     }

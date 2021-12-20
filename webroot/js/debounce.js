@@ -1,11 +1,15 @@
-function changeStatus(csrfToken, studentId) {
+function changeStatus(csrfToken, studentId, classEventId) {
+
+    const _classEventId = classEventId == null ? 'TEST_CALENDAR_EVENT_ID': classEventId;
     $.ajax({
         method: 'POST',
         url: '/apis/enterExit/' + studentId,
-        contentType: false,
-        processData: false,
-        headers: {
+        "headers": {
+            "Content-Type": "application/x-www-form-urlencoded",
             'X-CSRF-Token': csrfToken
+        },
+        "data": {
+            "class_event_id": _classEventId
         },
         success: (res) => {
             if(res !== 'Failure') {
@@ -13,27 +17,29 @@ function changeStatus(csrfToken, studentId) {
                 $('#status').text(res.studentName + ' status: ' + res.status);
             }
         },
-    })
+    });
 }
 
-function lineNotify(csrfToken, studentId, calendarEventId) {
-    $.ajax({
-        data: {
-            calendar_event_id: calendarEventId
-        },
-        method: 'POST',
-        url: '/apis/lineNotify/' + studentId,
-        contentType: false,
-        processData: false,
-        headers: {
+function lineNotify(csrfToken, studentId, classEventId) {
+
+    const _classEventId = classEventId == null ? 'TEST_CALENDAR_EVENT_ID': classEventId;
+    const settings = {
+        "url": "/apis/lineNotify/" + studentId,
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/x-www-form-urlencoded",
             'X-CSRF-Token': csrfToken
         },
-        success: (res) => {
-            if(res !== 'Successfully insert the log.') {
-                alert(res);
-            }
-        },
+        "data": {
+            "class_event_id": _classEventId
+        }
+    };
+
+    $.ajax(settings).done(function (response) {
+        // console.log(response);
     });
+
 }
 
 function debounce(func, delay = 2000) {

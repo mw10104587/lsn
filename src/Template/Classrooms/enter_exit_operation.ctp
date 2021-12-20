@@ -8,7 +8,6 @@
     <div style='margin-left: 20px;'>担当講師：</div>
 </div>
 
-
 <?= $this->Html->script('realtimeClock'); ?>
 <div class="mt-2 d-flex align-content-start flex-wrap">
     <?php if(empty($students)): ?>
@@ -21,7 +20,10 @@
                 $student_raw_names[$index],
                 [
                     'id' => $student->id,
-                    'class' => 'enter_exit me-3 w-15 btn btn-lg btn-outline-primary',
+                    'class' => $student_states[$index] === 'READY_TO_ENTER' ?
+                        'enter_exit me-3 w-15 btn btn-lg btn-primary' : 'enter_exit me-3 w-15 btn btn-lg btn-outline-primary',
+                    'disabled' => $student_states[$index] === 'LEFT',
+                    'student_status' => $student_states[$index],
                 ])
             ?>
         </p>
@@ -47,8 +49,30 @@
         $('.enter_exit').on('click', (e) => {
             let csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
             let studentId = e.target.id;
-            changeStatus(csrfToken, studentId);
-            debounce(() => lineNotify(csrfToken, studentId, 'TEST_calendar_event_id'))();
+            // Get the calendar event id, here, this event id should be the event id the
+            // of this class.
+            const classEventID = "<?= $event_id ?>";
+
+            // TODO: merge these two functions, there should literally be only one
+            // function call to the backend.
+            changeStatus(csrfToken, studentId, classEventID);
+            debounce(() => lineNotify(csrfToken, studentId, classEventID))();
+
+            // Update the button look accordingly.
+            switch (e.target.getAttribute('student_status')) {
+                case 'READY_TO_ENTER':
+                    e.target.className = 'enter_exit me-3 w-15 btn btn-lg btn-outline-primary';
+                    e.target.setAttribute('student_status', 'READY_TO_EXIT');
+                    break;
+
+                case 'READY_TO_EXIT':
+                    e.target.setAttribute('student_status', 'LEFT');
+                    e.target.setAttribute('disabled', true);
+                    break;
+                default:
+                    break;
+            }
+
         })
     });
 </script>
