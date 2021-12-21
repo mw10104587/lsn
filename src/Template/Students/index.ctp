@@ -58,13 +58,13 @@
                     $result->classroom,
                     $result->class,
                     $result->subject,
-                    $result->parent->parents_name, 
-                    $result->parent->phone,
+                    $result->parent != null && $result->parent->parents_name != null ? $result->parent->parents_name: 'N/A',
+                    $result->parent != null && $result->parent->phone != null ? $result->parent->phone: 'N/A',
                     $this->Form->button('情報', [
                         'class' => 'btn btn-primary',
                         'data-bs-toggle' => 'modal',
                         'data-bs-target' => '#informationModal',
-                        'onclick' => 'getInformation(this)' 
+                        'onclick' => 'getInformation(this)'
                     ])
                 ]
             ],

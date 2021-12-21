@@ -15,8 +15,10 @@ class StudentsController extends AppController
     public function index()
     {
         $results = $this->Students->find('all')
-            ->where(['Students.parent_id <>' => 0])    
+            ->where(['Students.parent_id <>' => 0])
             ->contain(['Parents']);
+
+        $this->log($results, 'error');
         $this->set(compact('results'));
     }
 
