@@ -74,19 +74,27 @@
       </button>
       <div class="collapse show" id="data-upload-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><?= $this->Html->link('Upload parents csv data', ['controller' => 'files', 'action' => 'parents'], ['class' => 'link-dark rounded']) ?></li>
-          <li><?= $this->Html->link('Upload parents email csv data', ['controller' => 'files', 'action' => 'parentsEmail'], ['class' => 'link-dark rounded']) ?></li>
-          <li><?= $this->Html->link('Upload student csv data', ['controller' => 'files', 'action' => 'student'], ['class' => 'link-dark rounded']) ?></li>
+          <li><?= $this->Html->link(
+            env('DEBUG', false) ? 'Upload parents csv data': '保護者データ',
+            ['controller' => 'files', 'action' => 'parents'], ['class' => 'link-dark rounded']) ?></li>
+          <li><?= $this->Html->link(
+            env('DEBUG', false) ? 'Upload parents email csv data' : 'emailデータ',
+            ['controller' => 'files', 'action' => 'parentsEmail'], ['class' => 'link-dark rounded']) ?></li>
+          <li><?= $this->Html->link(
+            env('DEBUG', false) ? 'Upload student csv data' : '受講生データ',
+            ['controller' => 'files', 'action' => 'student'], ['class' => 'link-dark rounded']) ?></li>
         </ul>
       </div>
     </li>
     <li class="mb-1">
       <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#setting-collapse" aria-expanded="true">
-        System configration
+        <?= env('DEBUG', false) ? 'System configration' : 'システム設定' ?>
       </button>
       <div class="collapse show" id="setting-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><?= $this->Html->link('Setting', ['controller' => 'settings', 'action' => 'index'], ['class' => 'link-dark rounded']) ?></li>
+          <li><?= $this->Html->link(
+            env('DEBUG', false) ? 'Setting' : '設定',
+            ['controller' => 'settings', 'action' => 'index'], ['class' => 'link-dark rounded']) ?></li>
         </ul>
       </div>
     </li>
