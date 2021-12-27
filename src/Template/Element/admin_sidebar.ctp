@@ -2,32 +2,38 @@
   <ul class="list-unstyled ps-0">
     <li class="mb-1">
       <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#classroom-collapse" aria-expanded="true">
-        Classroom
+        <?= env('DEBUG', false) ? 'Classroom?': 'クラスルーム' ?>
       </button>
       <div class="collapse show" id="classroom-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><?= $this->Html->link('Choose Classroom', ['controller' => 'classrooms', 'action' => 'index'], ['class' => 'link-dark rounded']); ?></li>
+          <li><?= $this->Html->link(
+            env('DEBUG', false) ? 'Choose Classroom': 'エリア選択',
+            ['controller' => 'classrooms', 'action' => 'index'], ['class' => 'link-dark rounded']); ?></li>
           <li><a href="#" class="link-dark rounded">Enter / Exit Operation</a></li>
         </ul>
       </div>
     </li>
     <li class="mb-1">
       <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#enter-exit-collapse" aria-expanded="true">
-        Enter / Exit Management
+        <?= env('DEBUG', false) ? 'Enter / Exit Management': '入退室管理' ?>
       </button>
       <div class="collapse show" id="enter-exit-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><?= $this->Html->link('List of entry / exit history', ['controller' => 'enter_exit_logs', 'action' => 'index'], ['class' => 'link-dark rounded']) ?></li>
+          <li><?= $this->Html->link(
+            env('DEBUG', false) ? 'List of entry / exit history': '履歴一覧',
+            ['controller' => 'enter_exit_logs', 'action' => 'index'], ['class' => 'link-dark rounded']) ?></li>
         </ul>
       </div>
     </li>
     <li class="mb-1">
       <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#student-collapse" aria-expanded="true">
-        Student management
+        <?= env('DEBUG', false) ? 'Student management': '受講生管理' ?>
       </button>
       <div class="collapse show" id="student-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><?= $this->Html->link('List of student', ['controller' => 'students', 'action' => 'index'], ['class' => 'link-dark rounded']) ?></li>
+          <li><?= $this->Html->link(
+            env('DEBUG', false) ? 'List of Student': '一覧',
+            ['controller' => 'students', 'action' => 'index'], ['class' => 'link-dark rounded']) ?></li>
         </ul>
       </div>
     </li>
@@ -43,20 +49,28 @@
     </li>
     <li class="mb-1">
       <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#user-collapse" aria-expanded="true">
-        User Management
+        <?= env('DEBUG', false) ? 'User Management': 'ユーザー管理' ?>
       </button>
       <div class="collapse show" id="user-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><?= $this->Html->link('User List', ['controller' => 'users', 'action' => 'index'], ['class' => 'link-dark rounded']) ?></li>
-          <li><?= $this->Html->link('User Entry', ['controller' => 'users', 'action' => 'add'], ['class' => 'link-dark rounded']) ?></li>
-          <li><?= $this->Html->link('User Update', ['controller' => 'users', 'action' => 'index'], ['class' => 'link-dark rounded']) ?></li>
-          <li><?= $this->Html->link('User Delete', ['controller' => 'users', 'action' => 'index'], ['class' => 'link-dark rounded']) ?></li>
+          <li><?= $this->Html->link(
+            env('DEBUG', false) ? 'User List' : '一覧',
+            ['controller' => 'users', 'action' => 'index'], ['class' => 'link-dark rounded']) ?></li>
+          <li><?= $this->Html->link(
+            env('DEBUG', false) ? 'User Entry' : '登録',
+            ['controller' => 'users', 'action' => 'add'], ['class' => 'link-dark rounded']) ?></li>
+          <li><?= $this->Html->link(
+            env('DEBUG', false) ? 'User Update' : '編集',
+            ['controller' => 'users', 'action' => 'index'], ['class' => 'link-dark rounded']) ?></li>
+          <li><?= $this->Html->link(
+            env('DEBUG', false) ? 'User Delete' : '削除',
+            ['controller' => 'users', 'action' => 'index'], ['class' => 'link-dark rounded']) ?></li>
         </ul>
       </div>
     </li>
     <li class="mb-1">
       <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#data-upload-collapse" aria-expanded="true">
-        Data upload
+        <?= env('DEBUG', false) ? 'Data upload': 'データアップロード' ?>
       </button>
       <div class="collapse show" id="data-upload-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">

@@ -1,8 +1,10 @@
 <div class="text-center">
-<?= $this->Flash->render() ?>
-<?= $this->Form->create() ?>
+<?= $this->Flash->render(); ?>
+<?= $this->Form->create(); ?>
     <div class="mb-3">
-        <h1 class="h3 mb-3 fw-normal">Login</h1>
+        <h1 class="h3 mb-3 fw-normal">
+            <?= env('DEBUG', false) ? 'Login': 'ログイン' ?>
+        </h1>
         <div class="mb-3">
             <?= $this->Form->control(
                 'username',
@@ -10,7 +12,7 @@
                     'id' => 'floatingInput',
                     'class' => 'form-control',
                     'for' => 'floatingInput',
-                    'placeholder' => 'Username',
+                    'label' => env('DEBUG', false) ? 'User Name' : 'ユーザー名',
                     'templates' => [
                         'inputContainer' => '<div class="form-floating">{{content}}</div>',
                         'formGroup' => '{{input}}{{label}}'
@@ -23,7 +25,7 @@
                     'id' => 'floatingPassword',
                     'class' => 'form-control',
                     'for' => 'floatingPassword',
-                    'placeholder' => 'Password',
+                    'label' => env('DEBUG', false) ? 'Password' : 'パスワード',
                     'templates' => [
                         'inputContainer' => '<div class="form-floating">{{content}}</div>',
                         'formGroup' => '{{input}}{{label}}'
@@ -32,15 +34,16 @@
             ?>
         </div>
         <div class="d-flex justify-content-around">
-            <?= $this->Html->link('register', 
+            <?= $this->Html->link(
+                env('DEBUG', false) ? 'Register' :'登録',
                 ['action' => 'register'],
                 [
                     'class' => 'w-15 btn btn-lg btn-secondary',
-                    'role' => 'button' 
+                    'role' => 'button'
                 ])
             ?>
             <?= $this->Form->button(
-                'Login',
+                env('DEBUG', false) ? 'Login' : 'ログイン',
                 [ 'class' => 'w-15 btn btn-lg btn-primary' ])
             ?>
         </div>

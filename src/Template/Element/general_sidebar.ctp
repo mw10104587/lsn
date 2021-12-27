@@ -2,7 +2,7 @@
   <ul class="list-unstyled ps-0">
     <li class="mb-1">
       <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#classroom-collapse" aria-expanded="true">
-        Classroom
+        <?php env('DEBUG', false) ? 'Classroom?': 'クラスルーム' ?>
       </button>
       <div class="collapse show" id="classroom-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
