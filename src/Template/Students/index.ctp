@@ -78,7 +78,22 @@
 <?= $this->Html->script('https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js') ?>
 <script>
     $(document).ready(() => {
-        $('#table').DataTable();
+        $('#table').DataTable(
+            {
+                language: {
+                    lengthMenu: '<?= env('DEBUG', false) ? 'display _MENU_ records a page' : '示す _MENU_ ページを記録します' ?>',
+                    zeroRecords: '<?= env('DEBUG', false) ? 'No data available in table' :'データが空です' ?>',
+                    paginate: {
+                        "first": '<?= env('DEBUG', false) ? 'First' :'初め' ?>',
+                        "last": '<?= env('DEBUG', false) ? 'Last' :'最後' ?>',
+                        "next": '<?= env('DEBUG', false) ? 'Next' :'次' ?>',
+                        "previous": '<?= env('DEBUG', false) ? 'Previous' :'前' ?>',
+                    },
+                    infoEmpty:  '<?= env('DEBUG', false) ? 'Showing 0 to 0 of 0 entries' :'0エントリのうち0から0を表示' ?>',
+                    search: '<?= env('DEBUG', false) ? 'Search:': '探す:' ?>',
+                }
+            }
+        );
     });
 
     function getInformation(element) {

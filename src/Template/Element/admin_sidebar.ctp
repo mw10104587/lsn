@@ -2,7 +2,7 @@
   <ul class="list-unstyled ps-0">
     <li class="mb-1">
       <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#classroom-collapse" aria-expanded="true">
-        <?= env('DEBUG', false) ? 'Classroom?': 'クラスルーム' ?>
+        <?= env('DEBUG', false) ? 'Classroom': 'クラスルーム' ?>
       </button>
       <div class="collapse show" id="classroom-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
@@ -39,11 +39,13 @@
     </li>
     <li class="mb-1">
       <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#security-collapse" aria-expanded="true">
-        Security
+        <?= env('DEBUG', false) ? 'Security': '安全' ?>
       </button>
       <div class="collapse show" id="security-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-          <li><?= $this->Html->link('Password Change', ['controller' => 'users', 'action' => 'password'], ['class' => 'link-dark rounded']) ?></li>
+          <li><?= $this->Html->link(
+            env('DEBUG', false) ? 'Password Change' : 'パスワードの変更',
+            ['controller' => 'users', 'action' => 'password'], ['class' => 'link-dark rounded']) ?></li>
         </ul>
       </div>
     </li>

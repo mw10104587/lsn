@@ -4,8 +4,7 @@
 <?= $this->Html->script('realtimeClock'); ?>
 <div class="mt-2 align-content-start flex-wrap">
     <?php if(empty($classes)): ?>
-        <? echo debug($classes); ?>
-        <p>There's no classes today.</p>
+        <p><?= env('DEBUG', false) ? "There's no classes today." : '今日は授業はありません。' ?></p>
     <?php endif; ?>
     <?php foreach($classes as $class): ?>
         <p>

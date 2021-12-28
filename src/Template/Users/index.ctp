@@ -1,21 +1,28 @@
-<h1>User List</h1>
-<?= $this->Html->link("Add User",
+<h1><?= env('DEBUG') ? 'User List' : 'ユーザーリスト' ?></h1>
+<?= $this->Html->link(
+        env('DEBUG') ? 'Add User' : 'ユーザーを追加する',
         [ 'action' => 'add' ],
         [
             'class' => 'w-15 btn btn-primary',
-            'role' => 'button' 
+            'role' => 'button'
         ]
     )
 ?>
 <table class="table table-striped table-hover" style='vertical-align: middle;'>
     <thead>
         <?= $this->Html->tableHeaders(
-            [
+            env('DEBUG') ? [
                 'Username',
                 'Identity',
                 'Action',
                 'Created',
                 'Updated'
+            ]: [
+                'ユーザー名',
+                '身元',
+                'アクション',
+                '作成した',
+                '更新しました'
             ]
         );
         ?>
@@ -30,9 +37,11 @@
             <?= $user->identity ?>
         </td>
         <td>
-            <?= $this->Html->link('Edit', ['action' => 'edit', $user->id]) ?>
+            <?= $this->Html->link(
+                env('DEBUG', false) ? 'Edit' : '編集',
+                ['action' => 'edit', $user->id]) ?>
             <?= $this->Form->postLink(
-                'Delete',
+                env('DEBUG', false) ? 'Delete' : 'デリート',
                 ['action' => 'delete', $user->id],
                 ['confirm' => 'Are you sure?'])
             ?>

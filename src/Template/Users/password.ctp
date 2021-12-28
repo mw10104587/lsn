@@ -1,4 +1,4 @@
-<h1>Change Password</h1>
+<h1><?= env('DEBUG', false) ? 'Change Password': 'パスワードを変更する' ?></h1>
 <?= $this->Form->create($user); ?>
 <?= $this->Form->control(
     'username',
@@ -6,6 +6,7 @@
         'id' => 'username',
         'class' => 'form-control',
         'label' => [
+            'text' => env('DEBUG') ? 'User Name': 'ユーザー名',
             'for' => 'username',
             'class' => 'form-label'
         ],
@@ -22,7 +23,7 @@
         'id' => 'password',
         'class' => 'form-control',
         'label' => [
-            'text' => 'New Password',
+            'text' => env('DEBUG') ? 'Password': 'パスワード',
             'for' => 'password',
             'class' => 'form-label'
         ],
@@ -33,7 +34,8 @@
     ])
 ?>
 <div class="float-end">
-    <?= $this->Form->button('Save',
+    <?= $this->Form->button(
+        env('DEBUG', false) ? 'Save' : '保存する',
         [
             'class' => 'w-15 btn btn-lg btn-primary'
         ])
