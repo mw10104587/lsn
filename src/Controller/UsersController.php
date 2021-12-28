@@ -19,14 +19,14 @@ class UsersController extends AppController
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
-            
+
             // set default identity as general
             $user->identity = 'general';
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('You have been registered.'));
+                $this->Flash->success(__(env('DEBUG', false) ? 'You have been registered.' : '登録されました。'));
                 return $this->redirect(['action' => 'login']);
             }
-            $this->Flash->error(__('Unable to finish you register.'));
+            $this->Flash->error(__(env('DEBUG', false) ? 'Unable to finish you register.' : '登録を完了できません。'));
         }
         $this->set('user', $user);
     }
@@ -39,10 +39,10 @@ class UsersController extends AppController
         if ($this->request->is(['post', 'put'])) {
             $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('Your password has been updated.'));
+                $this->Flash->success(__(env('DEBUG') ? 'Your password has been updated.' : 'パスワードが更新されました。'));
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('Unable to change your password.'));
+            $this->Flash->error(__(env('DEBUG', false) ? 'Unable to change your password.' : 'パスワードを変更できません。'));
         }
     }
 
@@ -50,7 +50,7 @@ class UsersController extends AppController
     {
         // if user is in login state, redirect to menu page
         if($this->Auth->user()) {
-            return $this->redirect('/menus'); 
+            return $this->redirect('/menus');
         }
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
@@ -65,13 +65,13 @@ class UsersController extends AppController
                 // original page after login
                 return $this->redirect($this->Auth->redirectUrl());
             }
-            $this->Flash->error('Your username or password is incorrect.');
+            $this->Flash->error(env('DEBUG', false) ? 'Your username or password is incorrect.' : 'ユーザー名またはパスワードが正しくありません。');
         }
     }
 
     public function logout()
     {
-        $this->Flash->success('You are now logged out.');
+        $this->Flash->success( env('DEBUG', false) ? 'You are now logged out.' : 'あなたはログアウトしました。');
         return $this->redirect($this->Auth->logout());
     }
 
@@ -93,10 +93,10 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('Your user has been saved.'));
+                $this->Flash->success(__(env('DEBUG', false) ? 'Your user has been saved.' : 'ユーザーが保存されました。'));
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('Unable to add your user.'));
+            $this->Flash->error(__(env('DEBUG', false) ? 'Unable to add your user.' : 'ユーザーを追加できません。'));
         }
         $this->set('user', $user);
     }
@@ -107,10 +107,10 @@ class UsersController extends AppController
         if ($this->request->is(['post', 'put'])) {
             $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('Your user has been updated.'));
+                $this->Flash->success(__(env('DEBUG') ? 'Your user has been updated.' : 'ユーザーが更新されました。'));
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('Unable to update your user.'));
+            $this->Flash->error(__(env('DEBUG', false) ? 'Unable to update your user.' : 'ユーザーを更新できません。'));
         }
 
         $this->set('user', $user);
@@ -122,7 +122,9 @@ class UsersController extends AppController
 
         $user = $this->Users->findById($id)->firstOrFail();
         if ($this->Users->delete($user)) {
-            $this->Flash->success(__('User {0} has been deleted.', $user->username));
+            $success_message = env('DEBUG', false) ? __('User {0} has been deleted.', $user->username)
+                : __('ユーザー {0} 削除されました。', $user->username);
+            $this->Flash->success($success_message);
             return $this->redirect(['action' => 'index']);
         }
     }

@@ -38,7 +38,7 @@ class FilesController extends AppController
         $arr_file_types = ['text/csv'];
 
         if (!(in_array($_FILES['file']['type'], $arr_file_types))) {
-            $this->Flash->error(__('Please choose a csv file'));
+            $this->Flash->error(__( env('DEBUG') ? 'Please choose a csv file' : 'csvファイルを選択してください'));
             return;
         }
 
@@ -160,9 +160,9 @@ class FilesController extends AppController
             if($type == 'parents') {
                 $parent = $this->Parents->newEntities($data);
                 if($this->Parents->saveMany($parent)) {
-                    $this->Flash->success(__('File uploaded successfully'));
+                    $this->Flash->success(__(env('DEBUG') ? 'File uploaded successfully' : 'ファイルが正常にアップロードされました'));
                 } else {
-                    $this->Flash->error(__('File uploaded failed'));
+                    $this->Flash->error(__(env('DEBUG') ? 'File uploaded failed': 'アップロードされたファイルが失敗しました'));
                 }
             }
             else if($type == 'parents_email') {
@@ -182,17 +182,17 @@ class FilesController extends AppController
 
                 $email = $this->Emails->newEntities($filtered_data);
                 if($this->Emails->saveMany($email)) {
-                    $this->Flash->success(__('File uploaded successfully'));
+                    $this->Flash->success(__(env('DEBUG') ? 'File uploaded successfully' : 'ファイルが正常にアップロードされました'));
                 } else {
-                    $this->Flash->error(__('File uploaded failed'));
+                    $this->Flash->error(__(env('DEBUG') ? 'File uploaded failed': 'アップロードされたファイルが失敗しました'));
                 }
             }
             else {
                 $student = $this->Students->newEntities($data);
                 if($this->Students->saveMany($student)) {
-                    $this->Flash->success(__('File uploaded successfully'));
+                    $this->Flash->success(__(env('DEBUG') ? 'File uploaded successfully' : 'ファイルが正常にアップロードされました'));
                 } else {
-                    $this->Flash->error(__('File uploaded failed'));
+                    $this->Flash->error(__(env('DEBUG') ? 'File uploaded failed': 'アップロードされたファイルが失敗しました'));
                 }
             }
             fclose($handle);

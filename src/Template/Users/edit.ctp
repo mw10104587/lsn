@@ -1,4 +1,4 @@
-<h1>Edit User</h1>
+<h1><?= env('DEBUG', false) ? 'Edit User' : 'ユーザーの編集' ?></h1>
 <?= $this->Form->create($user)?>
 <?= $this->Form->control('username',
     [

@@ -9,7 +9,6 @@
           <li><?= $this->Html->link(
             env('DEBUG', false) ? 'Choose Classroom': 'エリア選択',
             ['controller' => 'classrooms', 'action' => 'index'], ['class' => 'link-dark rounded']); ?></li>
-          <li><a href="#" class="link-dark rounded">Enter / Exit Operation</a></li>
         </ul>
       </div>
     </li>

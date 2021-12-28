@@ -1,4 +1,4 @@
-<h1>Add User</h1>
+<h1><?= env('DEBUG', false) ? 'Add User': 'ユーザーを追加する' ?></h1>
 <?= $this->Form->create($user)?>
 <?= $this->Form->control('username',
     [
@@ -6,7 +6,8 @@
         'class' => 'form-control',
         'label' => [
             'for' => 'username',
-            'class' => 'form-label'
+            'class' => 'form-label',
+            'text' => env('DEBUG', false) ?  'User Name': 'ユーザー名'
         ],
         'templates' => [
             'inputContainer' => '<div class="mb-3">{{content}}</div>',
@@ -19,7 +20,8 @@
         'class' => 'form-control',
         'label' => [
             'for' => 'password',
-            'class' => 'form-label'
+            'class' => 'form-label',
+            'text' => env('DEBUG', false) ?  'Password': 'パスワード'
         ],
         'templates' => [
             'inputContainer' => '<div class="mb-3">{{content}}</div>',
@@ -31,7 +33,7 @@
         'id' => 'password',
         'class' => 'form-control',
         'label' => [
-            'text' => 'Check Password Again',
+            'text' => env('DEBUG', false) ?  'Check Password Again': 'パスワードをもう一度確認してください',
             'for' => 'password',
             'class' => 'form-label'
         ],
@@ -41,7 +43,9 @@
     ])
 ?>
 <div class="mb-3">
-    <?= $this->Form->label('identity', null,
+    <?= $this->Form->label(
+        'identity',
+        env('DEBUG', false) ?  'Identity/Role': 'アイデンティティ/役割',
         [ 'class' => 'form-label' ])
     ?>
     <?= $this->Form->select('identity',
@@ -54,7 +58,7 @@
 </div>
 <div class="float-end">
     <?= $this->Form->button(
-        'Save',
+        env('DEBUG', false) ?  'Save': '保存する',
         [
             'class' => 'w-15 btn btn-lg btn-primary'
         ])
