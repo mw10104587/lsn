@@ -19,8 +19,10 @@ class ClassroomsController extends AppController
     public function index()
     {
         $classrooms = $this->getCalendarIDsAndNamesTuple();
-        $this->log($classrooms, 'debug');
         $this->set(compact('classrooms'));
+
+        $this->log('line channel secret', 'error');
+        $this->log(env('LINE_CHANNEL_SECRET'), 'error');
     }
 
     // Some days, there are multiple classes and that the same student
