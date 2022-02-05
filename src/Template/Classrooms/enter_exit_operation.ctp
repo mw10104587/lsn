@@ -52,11 +52,14 @@
             // Get the calendar event id, here, this event id should be the event id the
             // of this class.
             const classEventID = "<?= $event_id ?>";
+            const classroomName = "<?= $classroom_name ?>";
+            console.log('classroomName', classroomName);
 
-            // TODO: merge these two functions, there should literally be only one
-            // function call to the backend.
-            changeStatus(csrfToken, studentId, classEventID);
-            debounce(() => lineNotify(csrfToken, studentId, classEventID))();
+            // The function to
+            // 1. Update student status
+            // 2. Log into enter_exit_logs table
+            // 3. Send Line Notification to parents
+            changeStatus(csrfToken, studentId, classEventID, classroomName);
 
             // Update the button look accordingly.
             switch (e.target.getAttribute('student_status')) {

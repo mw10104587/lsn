@@ -19,6 +19,7 @@ class ClassroomsController extends AppController
     public function index()
     {
         $classrooms = $this->getCalendarIDsAndNamesTuple();
+        $this->log($classrooms, 'debug');
         $this->set(compact('classrooms'));
     }
 

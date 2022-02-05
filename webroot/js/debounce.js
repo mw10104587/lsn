@@ -1,7 +1,7 @@
-function changeStatus(csrfToken, studentId, classEventId) {
-
+function changeStatus(csrfToken, studentId, classEventId, classroomName) {
     const _classEventId = classEventId == null ? 'TEST_CALENDAR_EVENT_ID': classEventId;
     $.ajax({
+        contentType: "application/json; charset=utf-8",
         method: 'POST',
         url: '/apis/enterExit/' + studentId,
         "headers": {
@@ -9,8 +9,10 @@ function changeStatus(csrfToken, studentId, classEventId) {
             'X-CSRF-Token': csrfToken
         },
         "data": {
-            "class_event_id": _classEventId
+            "class_event_id": _classEventId,
+            "classroom_name": classroomName,
         },
+        dataType: 'json',
         success: (res) => {
             if(res !== 'Failure') {
                 res = JSON.parse(res);

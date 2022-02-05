@@ -15,6 +15,7 @@ class StudentsController extends AppController
     public function index()
     {
         $results = $this->Students->find('all')
+        // This is limiting to showing only students with parent data, not sure if we want this.
             ->where(['Students.parent_id <>' => 0])
             ->contain(['Parents']);
 
