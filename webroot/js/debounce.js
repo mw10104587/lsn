@@ -16,11 +16,14 @@ function changeStatus(csrfToken, studentId, classEventId, classroomName) {
         xhrFields: {withCredentials: true},
         dataType: 'json',
         success: (res) => {
+            console.log('res');
             if(res !== 'Failure') {
                 res = JSON.parse(res);
                 $('#status').text(res.studentName + ' status: ' + res.status);
             }
         },
+    }).done((res) => {
+        console.log('res', res);
     });
 }
 

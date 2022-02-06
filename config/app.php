@@ -382,6 +382,8 @@ return [
      */
     'Session' => [
         'defaults' => 'php',
+        'cookie' => 'CAKEPHP',
+        'cookiePath' => '/'
     ],
 ];
 ?>
