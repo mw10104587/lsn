@@ -20,19 +20,4 @@
             ?>
         </p>
         <?php endforeach?>
-    <? echo debug($students); ?>
 </div>
-
-
-<?= $this->Html->script('debounce'); ?>
-<script>
-    $(document).ready(() => {
-        $('.enter_exit').on('click', (e) => {
-            let csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
-            console.log('csrfToken', csrfToken);
-            let studentId = e.target.id;
-            changeStatus(csrfToken, studentId);
-            debounce(() => lineNotify(csrfToken, studentId))();
-        })
-    });
-</script>

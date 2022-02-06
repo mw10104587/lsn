@@ -47,13 +47,14 @@
 <script>
     $(document).ready(() => {
         $('.enter_exit').on('click', (e) => {
-            let csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
-            let studentId = e.target.id;
+            const csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
+            const studentId = e.target.id;
+
             // Get the calendar event id, here, this event id should be the event id the
             // of this class.
             const classEventID = "<?= $event_id ?>";
             const classroomName = "<?= $classroom_name ?>";
-            console.log('classroomName', classroomName);
+            console.log('csrfToken', csrfToken);
 
             // The function to
             // 1. Update student status

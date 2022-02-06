@@ -20,9 +20,6 @@ class ClassroomsController extends AppController
     {
         $classrooms = $this->getCalendarIDsAndNamesTuple();
         $this->set(compact('classrooms'));
-
-        $this->log('line channel secret', 'error');
-        $this->log(env('LINE_CHANNEL_SECRET'), 'error');
     }
 
     // Some days, there are multiple classes and that the same student
@@ -32,15 +29,11 @@ class ClassroomsController extends AppController
     public function pickClass($calendar_id, $classroom_name) {
 
         date_default_timezone_set("Asia/Tokyo");
-
-        // $this->log(date("Y-m-d\TH:i:s\Z", strtotime('today 19:00')), 'error');
-        // $this->log(date("Y-m-d\TH:i:s\Z", strtotime("today 8:00")),'error');
-
         $opt_params = array(
             'singleEvents' => true, /* so we can fetch recurring events */
             'timeMax' => date("Y-m-d\TH:i:s\Z", strtotime('today 19:00')),
             // 'timeMin' => date("Y-m-d\TH:i:s\Z", strtotime("yesterday 23:59")),
-            'timeMin' => date("Y-m-d\TH:i:s\Z", strtotime("yesterday 10:00")),
+            'timeMin' => date("Y-m-d\TH:i:s\Z", strtotime("today 00:00")),
             'timeZone' => 'Asia/Tokyo'
         );
 
