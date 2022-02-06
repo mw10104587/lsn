@@ -12,6 +12,7 @@ function changeStatus(csrfToken, studentId, classEventId, classroomName) {
             "class_event_id": _classEventId,
             "classroom_name": classroomName,
         },
+        xhrFields: {withCredentials: true},
         dataType: 'json',
         success: (res) => {
             if(res !== 'Failure') {
