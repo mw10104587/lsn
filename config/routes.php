@@ -63,7 +63,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
     $routes->connect('/', ['controller' => 'Users', 'action' => 'login']);
-    
+
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
      */
@@ -102,3 +102,7 @@ Router::scope('/', function (RouteBuilder $routes) {
  * });
  * ```
  */
+
+Router::scope('/apis', function (RouteBuilder $routes) {
+    $routes->connect('/', ['controller' => 'Apis']);
+});
