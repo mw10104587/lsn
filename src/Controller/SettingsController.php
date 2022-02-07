@@ -32,8 +32,8 @@ class SettingsController extends AppController
             $calendar_ids_string = $calendar_ids_string . $calendar_id . PHP_EOL;
             $memos_string = $memos_string . $memo . PHP_EOL;
         }
-        // $this->set('calendar_ids_string', $calendar_ids_string);
-        // $this->set('memos_string', $memos_string);
+        $this->set('calendar_ids_string', $calendar_ids_string);
+        $this->set('memos_string', $memos_string);
 
         // Handle form submission
         if($this->request->is('post')) {
