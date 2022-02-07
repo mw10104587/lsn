@@ -7,7 +7,7 @@
       <div class="collapse show" id="classroom-collapse">
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
           <li><?= $this->Html->link(
-            env('DEBUG', false) ? 'Choose Classroom': 'エリア選択',
+            env('DEBUG', false) ? 'Choose Classroom': 'カレンダー選択',
             ['controller' => 'classrooms', 'action' => 'index'], ['class' => 'link-dark rounded']); ?></li>
         </ul>
       </div>
