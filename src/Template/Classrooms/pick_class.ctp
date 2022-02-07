@@ -1,4 +1,6 @@
-<div id="status" style='display: flex; width: 100%; height: 40px; justify-content: center; align-items: center; background: #AECFDF'></div>
+<div id="status"
+     style='display: flex; width: 100%; height: 40px; justify-content: center; align-items: center;'>
+</div>
 <h1><?= $classroom_name ?></h1>
 <div id='clock'></div>
 <?= $this->Html->script('realtimeClock'); ?>

@@ -1,6 +1,6 @@
-<div id="status" style='display: flex; width: 100%; height: 40px; justify-content: center; align-items: center; background: #AECFDF'>
+<div id="status"
+     style='display: flex; width: 100%; height: 40px; justify-content: center; align-items: center;'>
 </div>
-
 <div style='display: flex; width: 100%; height: 40px;'>
     <div id='clock'></div>
     <div style='margin-left: 20px;'><?= $classroom_name ?></div>
