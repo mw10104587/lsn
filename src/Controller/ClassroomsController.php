@@ -86,6 +86,12 @@ class ClassroomsController extends AppController
     */
     public function enterExitOperation($calendar_id, $event_title, $classroom_name, $event_id)
     {
+
+        $this->loadModel('Settings');
+
+        $setting = $this->Settings->findByCalendarId($calendar_id)->firstOrFail();
+        $memo = $setting->memo;
+
         $class_name = $event_title;
         // start time range looks something like: '16:30～17:30'
         $start_time_range = explode(" ", $event_title)[1];
@@ -179,6 +185,7 @@ class ClassroomsController extends AppController
         $this->set(compact('student_raw_names'));
         $this->set(compact('student_states'));
         $this->set(compact('event_id'));
+        $this->set(compact('memo'));
     }
 
 

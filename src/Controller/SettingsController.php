@@ -44,8 +44,8 @@ class SettingsController extends AppController
             $calendar_id_arr = explode(PHP_EOL, $calendar_id_string);
             $memo_string_arr = explode(PHP_EOL, $memo_string);
 
-            $this->log('memo string array', 'error');
-            $this->log($memo_string_arr, 'error');
+            // $this->log('memo string array', 'error');
+            // $this->log($memo_string_arr, 'error');
 
             $cleanup_func = function ($calendar_raw_id) {
                 return trim($calendar_raw_id);

@@ -5,7 +5,7 @@
     <div id='clock'></div>
     <div style='margin-left: 20px;'><?= $classroom_name ?></div>
     <div style='margin-left: 20px;'><?= $class_name ?></div>
-    <div style='margin-left: 20px;'>担当講師：</div>
+    <div style='margin-left: 20px;'>メモ： <?= $memo ?></div>
 </div>
 
 <?= $this->Html->script('realtimeClock'); ?>
