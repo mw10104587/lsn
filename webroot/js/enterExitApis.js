@@ -1,4 +1,5 @@
-function changeStatus(csrfToken, studentId, classEventId, classroomName) {
+function changeStatus(csrfToken, studentId, classEventId, classroomName, newStatus) {
+    console.log('changeStatus');
     const _classEventId = classEventId == null ? 'TEST_CALENDAR_EVENT_ID': classEventId;
     $.ajax({
         contentType: "application/json; charset=utf-8",
@@ -11,6 +12,7 @@ function changeStatus(csrfToken, studentId, classEventId, classroomName) {
         "data": {
             "class_event_id": _classEventId,
             "classroom_name": classroomName,
+            "new_status": newStatus,
         },
         crossDomain: true,
         xhrFields: {withCredentials: true},
@@ -49,10 +51,10 @@ function lineNotify(csrfToken, studentId, classEventId) {
 
 }
 
-function debounce(func, delay = 2000) {
-	let timer = null;
-    return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => { func.apply(this, args); }, delay);
-    };
-}
+// function debounce(func, delay = 2000) {
+// 	let timer = null;
+//     return (...args) => {
+//         clearTimeout(timer);
+//         timer = setTimeout(() => { func.apply(this, args); }, delay);
+//     };
+// }

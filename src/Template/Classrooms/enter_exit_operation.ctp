@@ -13,8 +13,8 @@
     <div class='container-fluid' style="margin-bottom: 20px;">
         <div class="d-md-flex p-2">
             <div style="margin-right: 8px;"><button type="button" class="btn btn-primary"></button>ログイン</div>
-            <div style="margin-right: 8px;"><button type="button" class="btn btn-secondary"></button>サインアウト</div>
-            <div><button type="button" class="btn btn-secondary" disabled></button>教室を出た</div>
+            <div style="margin-right: 8px;"><button type="button" class="btn btn-warning"></button>サインアウト</div>
+            <div style="margin-right: 8px;"><button type="button" class="btn btn-secondary"></button>教室を出た</div>
         </div>
     </div>
     <?php if(empty($students)): ?>
@@ -29,8 +29,9 @@
                     [
                         'id' => $student->id,
                         'class' => $student_states[$index] === 'READY_TO_ENTER' ?
-                            'enter_exit me-3 w-15 btn btn-lg btn-primary' : 'enter_exit me-3 w-15 btn btn-lg btn-secondary',
-                        'disabled' => $student_states[$index] === 'LEFT',
+                            'enter_exit me-3 w-15 btn btn-lg btn-primary' :
+                            ($student_states[$index] === 'READY_TO_EXIT' ? 'enter_exit me-3 w-15 btn btn-lg btn-warning': 'enter_exit me-3 w-15 btn btn-lg btn-secondary'),
+                        // 'disabled' => $student_states[$index] === 'LEFT',
                         'student_status' => $student_states[$index],
                     ])
                 ?>
@@ -52,9 +53,12 @@
 <?= $this->Html->script('leaveButton'); ?>
 <?= $this->Html->css('scrollBarFix'); ?>
 
-<?= $this->Html->script('debounce'); ?>
+<?= $this->Html->script('enterExitApis'); ?>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+
 <script>
     $(document).ready(() => {
+        debouncedChangeStatus = _.debounce(changeStatus, 5000)
         $('.enter_exit').on('click', (e) => {
             const csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
             const studentId = e.target.id;
@@ -65,26 +69,38 @@
             const classroomName = "<?= $classroom_name ?>";
             // console.log('csrfToken', csrfToken);
 
-            // The function to
-            // 1. Update student status
-            // 2. Log into enter_exit_logs table
-            // 3. Send Line Notification to parents
-            changeStatus(csrfToken, studentId, classEventID, classroomName);
-
             // Update the button look accordingly.
             switch (e.target.getAttribute('student_status')) {
                 case 'READY_TO_ENTER':
-                    e.target.className = 'enter_exit me-3 w-15 btn btn-lg btn-secondary';
+                    e.target.className = 'enter_exit me-3 w-15 btn btn-lg btn-warning';
                     e.target.setAttribute('student_status', 'READY_TO_EXIT');
                     break;
 
                 case 'READY_TO_EXIT':
+                    e.target.className = 'enter_exit me-3 w-15 btn btn-lg btn-secondary';
                     e.target.setAttribute('student_status', 'LEFT');
-                    e.target.setAttribute('disabled', true);
+                    // e.target.setAttribute('disabled', true);
                     break;
-                default:
+                case 'LEFT':
+                    e.target.className = 'enter_exit me-3 w-15 btn btn-lg btn-primary';
+                    e.target.setAttribute('student_status', 'READY_TO_ENTER');
+                    // e.target.setAttribute('disabled', true);
                     break;
             }
+
+            const newStudentStatus = e.target.getAttribute('student_status');
+            console.log('newStudentStatus', newStudentStatus);
+            // The function to
+            // 1. Update student status
+            // 2. Log into enter_exit_logs table
+            // 3. Send Line Notification to parents
+            debouncedChangeStatus(
+                csrfToken,
+                studentId,
+                classEventID,
+                classroomName,
+                newStudentStatus
+            );
 
         })
     });

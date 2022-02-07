@@ -28,6 +28,7 @@ class ApisController extends AppController
         // Grab Request Body Data.
         $classroom_name = $this->request->getParsedBody()['classroom_name'];
         $class_event_id = $this->request->getParsedBody()['class_event_id'];
+        $new_status = $this->request->getParsedBody()['new_status'];
 
         $return_json = [];
 
@@ -36,15 +37,21 @@ class ApisController extends AppController
         // This should never fail since when we render the button, we check if the student
         // is present in the database, if not, we create an instance for them.
         $student = $this->Students->findById($student_id)->firstOrFail();
-        if ($student->status == 'stay') {
+        if ($new_status == 'LEFT' /* $student->status == 'stay' */) {
             $student->status = 'leave';
             $return_json['status'] = 'leave';
             $return_json['studentName'] = $student->student_name;
-        } else {
+        } else if($new_status == 'READY_TO_EXIT') {
             $student->status = 'stay';
             $return_json['status'] = 'stay';
             $return_json['studentName'] = $student->student_name;
+        } else {
+            $this->log('We are assuming no students would stop the button status on
+            READY_TO_ENTER, but we have this incident happened', 'warning');
+
+            return $this->response->withStringBody('No Status Update.');
         }
+
         if($this->Students->save($student)) {
             $return_json['student_status_update'] = 'success';
         } else {
@@ -73,6 +80,7 @@ class ApisController extends AppController
         // if not, we log this as an error
         if($parent_id == 0) {
             $this->log('parent_id is null for student with id: '.$student_id, 'error');
+            $return_json['line_notify'] = 'failed. No Parent Info';
         } else {
             $line_bot_user = $this->LineBotUsers->findByParentId($parent_id)->first();
             if(!$line_bot_user) {
@@ -104,7 +112,7 @@ class ApisController extends AppController
 
         return "【登校のお知らせ】\n".
                 $parent_name."様\n".
-                $student_name.'様が'.$classroom_name."クラスに登校しました。".$arrived_or_leave_string;
+                $student_name.'様が'.$classroom_name."".$arrived_or_leave_string;
     }
 
 
