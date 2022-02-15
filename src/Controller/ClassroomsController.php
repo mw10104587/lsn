@@ -95,7 +95,10 @@ class ClassroomsController extends AppController
         $class_name = $event_title;
         // start time range looks something like: '16:30～17:30'
         $start_time_range = explode(" ", $event_title)[1];
-        $start_time = explode('～', $start_time_range)[0];
+
+        // Try to find either "～" or "-" in the string
+        $time_split_symbol = str_contains($start_time_range, '～') ? '～' : '-';
+        $start_time = explode($time_split_symbol, $start_time_range)[0];
 
         $opt_params = array(
             'singleEvents' => true, /* so we can fetch recurring events */
@@ -160,20 +163,20 @@ class ClassroomsController extends AppController
                 // check whether the student is logged and push the state
                 // $student_state_count = $this->EnterExitLogs->findByStudentName($parsed_student_name)->findByClassEventId($event_id)->count();
                 $student_state_count = $this->EnterExitLogs->findByClassEventIdAndStudentName($event_id, $parsed_student_name)->count();
-                $this->log('student state count: '.$student_state_count, 'error');
+                // $this->log('student state count: '.$student_state_count, 'error');
                 switch ($student_state_count) {
                     case 1:
                         array_push($student_states, 'READY_TO_EXIT');
-                        $this->log('ready to exit', 'error');
+                        // $this->log('ready to exit', 'error');
                         break;
                     case 2:
                         array_push($student_states, 'LEFT');
-                        $this->log('left', 'error');
+                        // $this->log('left', 'error');
                         break;
                     case 0:
                     default:
                         array_push($student_states, 'READY_TO_ENTER');
-                        $this->log('ready to enter', 'error');
+                        // $this->log('ready to enter', 'error');
                         break;
                 }
             }

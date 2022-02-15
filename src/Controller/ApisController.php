@@ -83,10 +83,17 @@ class ApisController extends AppController
             $return_json['line_notify'] = 'failed. No Parent Info';
         } else {
             $line_bot_user = $this->LineBotUsers->findByParentId($parent_id)->first();
-            if(!$line_bot_user) {
+            if((!$line_bot_user) || !$line_bot_user->email_verified) {
                 $return_json['line_notify'] = 'failed';
-                $this->log("Line Account is not connected for student with id: ".
+
+                if($line_bot_user == null) {
+                    $this->log("Line Account is not connected for student with id: ".
                             $student_id.", and parent_id: ".$parent_id, 'error');
+                } else {
+                    $this->log("Email is not verified for student with id: ".
+                            $student_id.", and parent_id: ".$parent_id, 'error');
+                }
+
             } else {
                 $line_bot_id = $line_bot_user->line_bot_id; //The Line Account ID of the Parent
                 // Send Push Message to parent.
