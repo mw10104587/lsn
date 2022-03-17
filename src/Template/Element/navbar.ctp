@@ -6,7 +6,7 @@
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"></ul>
 
-        <?php if (!is_null($this->request->session()->read('Auth.User'))): ?>
+        <?php if (!is_null($this->request->getSession()->read('Auth.User'))): ?>
             <div class="text-end">
                 <a href="/users/logout" class="btn btn-outline-light me-2 text-decoration-none" role='button'>
                     <?= env('DEBUG', false) ? 'Sign Out' : 'サインアウト' ?>
