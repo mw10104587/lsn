@@ -3,7 +3,7 @@
 <?= $this->Form->create(); ?>
     <div class="mb-3">
         <h1 class="h3 mb-3 fw-normal">
-            <?= env('DEBUG', false) ? 'Login': 'ログイン' ?>
+            <?= env('DEBUG', false) ? 'Login': 'サインイン' ?>
         </h1>
         <div class="mb-3">
             <?= $this->Form->control(
@@ -43,7 +43,7 @@
                 ])
             ?>
             <?= $this->Form->button(
-                env('DEBUG', false) ? 'Login' : 'ログイン',
+                env('DEBUG', false) ? 'Login' : 'サインイン',
                 [ 'class' => 'w-15 btn btn-lg btn-primary' ])
             ?>
         </div>
