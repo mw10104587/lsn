@@ -19,4 +19,15 @@ class User extends Entity
             return $hasher->hash($value);
         }
     }
+
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->requirePresence('username')
+            ->notEmptyString('username')
+            ->requirePresence('password')
+            ->notEmptyString('password');
+
+        return $validator;
+    }
 }
