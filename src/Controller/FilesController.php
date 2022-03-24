@@ -34,13 +34,16 @@ class FilesController extends AppController
         // set this route only for receiving ajax call
         // and would not be rendered
         $this->render(false);
-
-        $arr_file_types = ['text/csv'];
+        
+        $arr_file_types = [
+            'text/csv', 
+            'application/vnd.ms-excel' /* allow ms-excel csv file as well */
+        ];
 
         if (!(in_array($_FILES['file']['type'], $arr_file_types))) {
             $this->log('file_type:'. $_FILES['file']['type'], 'debug');
-            // $this->Flash->error(__( env('DEBUG') ? 'Please choose a csv file' : 'csvファイルを選択してください'));
-            // return;
+            $this->Flash->error(__( env('DEBUG') ? 'Please choose a csv file' : 'csvファイルを選択してください'));
+            return;
         }
 
         // open csv file
