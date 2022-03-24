@@ -105,17 +105,15 @@ class ClassroomsController extends AppController
             'singleEvents' => true, /* so we can fetch recurring events */
             // Assuming classes won't start before last day midnight
             // and won't start after 7pm.
-            'timeMax' => date("Y-m-d\TH:i:s\Z", strtotime('today 19:00')),
-            'timeMin' => date("Y-m-d\TH:i:s\Z", strtotime("yesterday 23:59")),
+            'timeMax' => date("Y-m-d\TH:i:s\+09:00", strtotime('today 19:00')),
+            'timeMin' => date("Y-m-d\TH:i:s\+09:00", strtotime("today 00:00")),
             'timeZone' => 'Asia/Tokyo'
         );
 
         // get events by calendar ID and optional parameters
         $events = $this->getEvent($calendar_id, $opt_params);
-        $expected_datetime = date("Y-m-d\TH:i:s\Z", strtotime("today ".$start_time));
-        $expected_datetime_tz_idx = strrpos($expected_datetime, 'Z');
-        $expected_datetime_without_tz = substr($expected_datetime, 0, $expected_datetime_tz_idx);
-
+        $expected_datetime = date("Y-m-d\TH:i:s\+09:00", strtotime("today ".$start_time));
+        
         // Find the ones that are NOT whole day events
         // PS. in Haga's case, they are also recurring events
         $students = array();
@@ -136,11 +134,9 @@ class ClassroomsController extends AppController
             // since this means that this is NOT all-day event
             if (!empty($event->start->dateTime)) {
 
-                $event_tz_pos = strrpos($event->start->dateTime, '+');
-                $event_datetime_without_tz = substr($event->start->dateTime, 0, $event_tz_pos);
-
+                $this->log('event start datetime'. $event->start->dateTime, 'debug');
                 // If the datetime doesn't align, we skip
-                if ($expected_datetime_without_tz !== $event_datetime_without_tz) {
+                if ($expected_datetime !== $event->start->dateTime) {
                     continue;
                 }
 
