@@ -21,7 +21,7 @@
         <? echo debug($students); ?>
         <p>There is no student.</p>
     <?php endif; ?>
-    <div>
+    <div style="display: flex"> 
         <?php foreach($students as $index => $student): ?>
             <p>
                 <?= $this->Form->button(
