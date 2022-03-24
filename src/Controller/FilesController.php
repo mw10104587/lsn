@@ -38,8 +38,9 @@ class FilesController extends AppController
         $arr_file_types = ['text/csv'];
 
         if (!(in_array($_FILES['file']['type'], $arr_file_types))) {
-            $this->Flash->error(__( env('DEBUG') ? 'Please choose a csv file' : 'csvファイルを選択してください'));
-            return;
+            $this->log('file_type:'. $_FILES['file']['type'], 'debug');
+            // $this->Flash->error(__( env('DEBUG') ? 'Please choose a csv file' : 'csvファイルを選択してください'));
+            // return;
         }
 
         // open csv file
