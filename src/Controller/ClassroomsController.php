@@ -31,9 +31,10 @@ class ClassroomsController extends AppController
         date_default_timezone_set("Asia/Tokyo");
         $opt_params = array(
             'singleEvents' => true, /* so we can fetch recurring events */
-            'timeMax' => date("Y-m-d\TH:i:s\Z", strtotime('today 19:00')),
+            // +09:00 makes sure we're using the JST timezone to filter out events 
+            'timeMax' => date("Y-m-d\TH:i:s\+09:00", strtotime('today 19:00')),
             // 'timeMin' => date("Y-m-d\TH:i:s\Z", strtotime("yesterday 23:59")),
-            'timeMin' => date("Y-m-d\TH:i:s\Z", strtotime("today 00:00")),
+            'timeMin' => date("Y-m-d\TH:i:s\+09:00", strtotime("today 00:00")),
             'timeZone' => 'Asia/Tokyo'
         );
 
