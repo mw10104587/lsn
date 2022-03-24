@@ -1,6 +1,5 @@
-function showTime(){
-    var d = new Date(new Date().toLocaleString("en-US", {timeZone: 'Asia/Tokyo'}));
-    var year = d.getFullYear();
+function getJapeneseFormatDate(d) {
+    const year = d.getFullYear();
     var month = d.getMonth() + 1;
     var date = d.getDate();
     var day = d.getDay();
@@ -8,36 +7,33 @@ function showTime(){
     var min = d.getMinutes();
     var sec = d.getSeconds();
 
-    switch(day){
+    switch (day) {
         case 1:
-            day='月';
+            day = '月';
             break;
         case 2:
-            day='火';
+            day = '火';
             break;
         case 3:
-            day='水';
+            day = '水';
             break;
         case 4:
-            day='木';
+            day = '木';
             break;
         case 5:
-            day='金';
+            day = '金';
             break;
         case 6:
-            day='土';
+            day = '土';
             break;
         case 7:
-            day='日';
+        case 0:
+            day = '日';
             break;
         default:
     }
 
-    var MV = 'AM';
-    if(hour == 12){
-        MV = 'PM';
-    }
-    if(hour > 12){
+    if (hour > 12) {
         hour = hour % 12;
         MV = 'PM';
     }
@@ -46,11 +42,21 @@ function showTime(){
     min = ('0' + min).slice(-2);
     sec = ('0' + sec).slice(-2);
 
-    document.getElementById('clock').innerHTML =
-        year + '年' + month + '月' + date + '日(' + day + ') ' +
-        hour + '時' + min + '分' + sec + '秒';
-    //  + MV;
+    return `${year}年${month}月${date}日(${day}) ${hour}時${min}分${sec}秒`;
 }
 
-showTime();
-setInterval(showTime, 1000);
+
+function showTime() {
+    var d = new Date(new Date().toLocaleString("en-US", { timeZone: 'Asia/Tokyo' }));
+    const japaneseTime = getJapeneseFormatDate(d);
+    document.getElementById('clock').innerHTML = japaneseTime;
+}
+
+$(document).ready(() => {
+    if (document.getElementById('clock')) {
+        setInterval(showTime, 1000);
+    }
+})
+
+
+

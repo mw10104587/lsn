@@ -1,4 +1,5 @@
 <h1><?= env('DEBUG') ? 'User List' : 'ユーザーリスト' ?></h1>
+<?= $this->Html->script('realtimeClock'); ?>
 <?= $this->Html->link(
         env('DEBUG') ? 'Add User' : 'ユーザーを追加する',
         [ 'action' => 'add' ],
@@ -46,13 +47,30 @@
                 ['confirm' => 'Are you sure?'])
             ?>
         </td>
-        <td>
-            <?= $user->created->format(DATE_RFC850) ?>
+        <td class="created-time">
+            <?= $user->created->toUnixString() ?>000
         </td>
-        <td>
-            <?= $user->modified->format(DATE_RFC850) ?>
+        <td class="updated-time">
+            <?= $user->modified->toUnixString() ?>000
         </td>
     </tr>
 <?php endforeach; ?>
 
 </table>
+
+<script>
+    $(document).ready(()=>{
+        $(".created-time").html((_, v) => {
+            const d = new Date(parseInt(v.trim()));
+            // console.log('d', d);
+            return getJapeneseFormatDate(d);
+        });
+
+        $(".updated-time").html((_, v) => {
+            const d = new Date(parseInt(v.trim()));
+            // console.log('d', d);
+            return getJapeneseFormatDate(d);
+        });
+
+    });
+ </script>
