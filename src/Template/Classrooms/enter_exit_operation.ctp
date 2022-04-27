@@ -21,16 +21,16 @@
         <? echo debug($students); ?>
         <p>There is no student.</p>
     <?php endif; ?>
-    <div style="display: flex; max-width: 960px;"> 
+    <div style="display: flex; max-width: 800px; flex-wrap: wrap; column-gap: 12px;"> 
         <?php foreach($students as $index => $student): ?>
-            <p>
+            <p style="flex-basis: 138px; flex-shrink: 0">
                 <?= $this->Form->button(
                     $student_raw_names[$index],
                     [
                         'id' => $student->id,
                         'class' => $student_states[$index] === 'READY_TO_ENTER' ?
-                            'enter_exit me-3 w-15 btn btn-lg btn-primary' :
-                            ($student_states[$index] === 'READY_TO_EXIT' ? 'enter_exit me-3 w-15 btn btn-lg btn-warning': 'enter_exit me-3 w-15 btn btn-lg btn-secondary'),
+                            'enter_exit btn btn-lg btn-primary btn-block' :
+                            ($student_states[$index] === 'READY_TO_EXIT' ? 'enter_exit btn btn-lg btn-warning': 'enter_exit btn btn-lg btn-secondary btn-block'),
                         // 'disabled' => $student_states[$index] === 'LEFT',
                         'student_status' => $student_states[$index],
                     ])

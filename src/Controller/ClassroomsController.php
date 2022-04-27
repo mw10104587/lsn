@@ -101,6 +101,9 @@ class ClassroomsController extends AppController
         $time_split_symbol = str_contains($start_time_range, '～') ? '～' : '-';
         $start_time = explode($time_split_symbol, $start_time_range)[0];
 
+        // Set Default timezone before using strtotime.
+        date_default_timezone_set("Asia/Tokyo");
+        
         $opt_params = array(
             'singleEvents' => true, /* so we can fetch recurring events */
             // Assuming classes won't start before last day midnight
@@ -132,9 +135,9 @@ class ClassroomsController extends AppController
         foreach ($events as $event) {
             // we only handle the one with NON-empty starting dateTime
             // since this means that this is NOT all-day event
+            // $this->log('$event: '.$event->start->dateTime, 'debug');
             if (!empty($event->start->dateTime)) {
 
-                $this->log('event start datetime'. $event->start->dateTime, 'debug');
                 // If the datetime doesn't align, we skip
                 if ($expected_datetime !== $event->start->dateTime) {
                     continue;
