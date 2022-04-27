@@ -100,9 +100,12 @@ class ClassroomsController extends AppController
         // Try to find either "～" or "-" in the string
         $time_split_symbol = str_contains($start_time_range, '～') ? '～' : '-';
         $start_time = explode($time_split_symbol, $start_time_range)[0];
+        $end_time = explode($time_split_symbol, $start_time_range)[1];
 
         // Set Default timezone before using strtotime.
         date_default_timezone_set("Asia/Tokyo");
+        $start_timestamp = strtotime($start_time);
+        $end_timestamp = strtotime($end_time);
         
         $opt_params = array(
             'singleEvents' => true, /* so we can fetch recurring events */
@@ -139,7 +142,22 @@ class ClassroomsController extends AppController
             if (!empty($event->start->dateTime)) {
 
                 // If the datetime doesn't align, we skip
-                if ($expected_datetime !== $event->start->dateTime) {
+                // if ($expected_datetime !== $event->start->dateTime) {
+                //     continue;
+                // }
+
+                $student_start_time = strtotime($event->start->dateTime);
+                $student_end_time = strtotime($event->end->dateTime);
+                // Instead of the commented out logic above where we require the time of the 
+                // student name event is completely the same as the classtime, we want to 
+                // be looser. As long as the two time (student calendar time) and (class time)
+                // has some overlap, we include the student 
+                // $start_is_in_range = $event->start->dateTime > 
+                $start_is_in_range = $student_start_time < $end_timestamp && $student_start_time >= $start_timestamp;
+                $end_is_in_range = $student_end_time <= $end_timestamp && $student_end_time > $start_timestamp;
+                $student_time_wraps = $student_start_time <= $start_timestamp && $student_end_time >= $end_timestamp;
+
+                if (!$start_is_in_range && !$end_is_in_range && !$student_time_wraps) {
                     continue;
                 }
 
