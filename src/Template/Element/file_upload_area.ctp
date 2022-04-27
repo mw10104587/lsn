@@ -2,10 +2,10 @@
     'enctype' => 'multipart/form-data'
 ]); ?>
 
-<div id='drop_file_zone' ondrop='dargUploadFile(event)' ondragover='return false'>
+<div id='drop_file_zone' ondrop='dragUploadFile(event)' ondragover='return false'>
     <div id='drag_upload_file'>
         <p><?= env('DEBUG', false) ? 'Drop file here' : 'ここにファイルをドロップ' ?></p>
-        <p><? = env('DEBUG', false) ? 'or' : 'また' ?></p>
+        <p><?= env('DEBUG', false) ? 'or' : 'また' ?></p>
         <div class="d-sm-flex justify-content-around">
             <input  type='button'
                     class="form-control btn btn-secondary btn-sm"
