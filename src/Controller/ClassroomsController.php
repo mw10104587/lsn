@@ -111,7 +111,7 @@ class ClassroomsController extends AppController
             'singleEvents' => true, /* so we can fetch recurring events */
             // Assuming classes won't start before last day midnight
             // and won't start after 7pm.
-            'timeMax' => date("Y-m-d\TH:i:s\+09:00", strtotime('today 19:00')),
+            'timeMax' => date("Y-m-d\TH:i:s\+09:00", strtotime('today 23:59')),
             'timeMin' => date("Y-m-d\TH:i:s\+09:00", strtotime("today 00:00")),
             'timeZone' => 'Asia/Tokyo'
         );
@@ -144,7 +144,7 @@ class ClassroomsController extends AppController
                 // If the datetime doesn't align, we skip
                 // if ($expected_datetime !== $event->start->dateTime) {
                 //     continue;
-                // }
+                // }                
 
                 $student_start_time = strtotime($event->start->dateTime);
                 $student_end_time = strtotime($event->end->dateTime);
@@ -152,7 +152,6 @@ class ClassroomsController extends AppController
                 // student name event is completely the same as the classtime, we want to 
                 // be looser. As long as the two time (student calendar time) and (class time)
                 // has some overlap, we include the student 
-                // $start_is_in_range = $event->start->dateTime > 
                 $start_is_in_range = $student_start_time < $end_timestamp && $student_start_time >= $start_timestamp;
                 $end_is_in_range = $student_end_time <= $end_timestamp && $student_end_time > $start_timestamp;
                 $student_time_wraps = $student_start_time <= $start_timestamp && $student_end_time >= $end_timestamp;
