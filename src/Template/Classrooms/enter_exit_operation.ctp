@@ -21,9 +21,9 @@
         <? echo debug($students); ?>
         <p>There is no student.</p>
     <?php endif; ?>
-    <div style="display: flex; max-width: 800px; flex-wrap: wrap; column-gap: 12px;"> 
+    <div style="display: flex; max-width: 500px; flex-wrap: wrap; column-gap: 12px; row-gap: 16px;"> 
         <?php foreach($students as $index => $student): ?>
-            <p style="flex-basis: 138px; flex-shrink: 0">
+            <div style="flex-basis: 140px; flex-shrink: 0; flex-grow: 1;">
                 <?= $this->Form->button(
                     $student_raw_names[$index],
                     [
@@ -35,7 +35,7 @@
                         'student_status' => $student_states[$index],
                     ])
                 ?>
-            </p>
+            </div>
         <?php endforeach;?>
     </div>
     <? echo debug($students); ?>
