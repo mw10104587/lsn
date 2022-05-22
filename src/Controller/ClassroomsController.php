@@ -177,23 +177,25 @@ class ClassroomsController extends AppController
                 array_push($students, $student);
                 array_push($student_raw_names, $student_name_raw);
 
-                // check whether the student is logged and push the state
-                // $student_state_count = $this->EnterExitLogs->findByStudentName($parsed_student_name)->findByClassEventId($event_id)->count();
-                $student_state_count = $this->EnterExitLogs->findByClassEventIdAndStudentName($event_id, $parsed_student_name)->count();
-                // $this->log('student state count: '.$student_state_count, 'error');
-                switch ($student_state_count) {
-                    case 1:
-                        array_push($student_states, 'READY_TO_EXIT');
-                        // $this->log('ready to exit', 'error');
-                        break;
-                    case 2:
+                // Find the last log of the student to decide the status
+                $last_log = $this->EnterExitLogs
+                    ->find()
+                    ->select(['enter_or_exit'])
+                    ->where(['class_event_id =' => $event_id])
+                    ->where(['student_name =' => $parsed_student_name])
+                    ->order(['created' => 'DESC'])
+                    ->first();
+                
+                $status = isset($last_log['enter_or_exit']) ? $last_log['enter_or_exit'] : '';
+                switch ($status) {
+                    case 'leave': 
                         array_push($student_states, 'LEFT');
-                        // $this->log('left', 'error');
                         break;
-                    case 0:
-                    default:
+                    case "stay": 
+                        array_push($student_states, 'READY_TO_EXIT');
+                        break;
+                    default: 
                         array_push($student_states, 'READY_TO_ENTER');
-                        // $this->log('ready to enter', 'error');
                         break;
                 }
             }

@@ -1,5 +1,4 @@
 function changeStatus(csrfToken, studentId, classEventId, classroomName, newStatus) {
-    console.log('changeStatus');
     const _classEventId = classEventId == null ? 'TEST_CALENDAR_EVENT_ID': classEventId;
     $.ajax({
         contentType: "application/json; charset=utf-8",

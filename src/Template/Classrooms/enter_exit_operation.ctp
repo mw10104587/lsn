@@ -58,10 +58,18 @@
 
 <script>
     $(document).ready(() => {
-        debouncedChangeStatus = _.debounce(changeStatus, 5000)
+        // For different buttons, we need different debounce function
+        const debounceMap = {}; 
+
         $('.enter_exit').on('click', (e) => {
             const csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
             const studentId = e.target.id;
+
+            if(!(studentId in debounceMap)) {
+                // console.log('studentId', studentId);
+                debounceMap[studentId] = _.debounce(changeStatus, 100);
+            }
+            const debounceFuncForStudent = debounceMap[studentId];
 
             // Get the calendar event id, here, this event id should be the event id the
             // of this class.
@@ -89,12 +97,12 @@
             }
 
             const newStudentStatus = e.target.getAttribute('student_status');
-            console.log('newStudentStatus', newStudentStatus);
+            // console.log('newStudentStatus', newStudentStatus);
             // The function to
             // 1. Update student status
             // 2. Log into enter_exit_logs table
             // 3. Send Line Notification to parents
-            debouncedChangeStatus(
+            debounceFuncForStudent(
                 csrfToken,
                 studentId,
                 classEventID,

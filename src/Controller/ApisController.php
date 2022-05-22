@@ -49,7 +49,12 @@ class ApisController extends AppController
             $this->log('We are assuming no students would stop the button status on
             READY_TO_ENTER, but we have this incident happened', 'warning');
 
-            return $this->response->withStringBody('No Status Update.');
+            // Setting the Student status to empty helps us render student status 
+            // correctly on enter exit view
+            $student->status = ''; 
+            $return_json['status'] = 'stay';
+            $return_json['studentName'] = $student->student_name;
+            // return $this->response->withStringBody('No Status Update.');
         }
 
         if($this->Students->save($student)) {
