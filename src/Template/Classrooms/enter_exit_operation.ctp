@@ -8,6 +8,21 @@
     <div style='margin-left: 20px;'>メモ： <?= $memo ?></div>
 </div>
 
+<?php 
+function getAlignFromIndex($index) {
+    $mod = $index % 3; 
+    switch ($mod) {
+        case 0:
+            return 'start';
+        case 1:
+            return 'center';
+        case 2:
+            return 'end';
+    }
+}
+
+?>
+
 <?= $this->Html->script('realtimeClock'); ?>
 <div class="mt-2 d-flex align-content-start flex-wrap">
     <div class='container-fluid' style="margin-bottom: 20px;">
@@ -18,12 +33,11 @@
         </div>
     </div>
     <?php if(empty($students)): ?>
-        <? echo debug($students); ?>
         <p>There is no student.</p>
     <?php endif; ?>
-    <div style="width: 612px;">
+    <div style="width: 740px;">
         <?php foreach($students as $index => $student): ?>
-            <div style="width:180px; margin-right:20px; display: inline-block; margin-bottom: 32px;"> 
+            <div style="width:240px; text-align: <?= getAlignFromIndex($index) ?>; display: inline-block; margin-bottom: 32px; padding: 0px 4px;"> 
                 <?= $this->Form->button(
                     $student_raw_names[$index],
                     [
@@ -38,7 +52,6 @@
             </div>
         <?php endforeach;?>
     </div>
-    <? echo debug($students); ?>
 </div>
 
 <?= $this->Form->button(
