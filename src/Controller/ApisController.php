@@ -81,6 +81,13 @@ class ApisController extends AppController
             $return_json['enter_exit_log_status'] = 'failed';
         }
 
+        // Decide if we need to send message. Only send when the student enters or leave 
+        // Don't send when it's being reset to ready to enter 
+        if($student->status == '') {
+            return $this->response->withType('application/json')
+                    ->withStringBody(json_encode($return_json));
+        }
+
         // Send notification to parent if we found their id
         // if not, we log this as an error
         if($parent_id == 0) {
