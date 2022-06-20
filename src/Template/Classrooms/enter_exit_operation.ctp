@@ -1,56 +1,85 @@
 <div id="status"
      style='display: flex; width: 100%; height: 40px; justify-content: center; align-items: center;'>
 </div>
-<div style='display: flex; width: 100%; height: 40px;'>
+<div style='display: flex; width: 100%;'>
     <div id='clock'></div>
     <div style='margin-left: 20px;'><?= $classroom_name ?></div>
     <div style='margin-left: 20px;'><?= $class_name ?></div>
     <div style='margin-left: 20px;'>メモ： <?= $memo ?></div>
 </div>
 
-<?php 
-function getAlignFromIndex($index) {
-    $mod = $index % 3; 
-    switch ($mod) {
-        case 0:
-            return 'start';
-        case 1:
-            return 'center';
-        case 2:
-            return 'end';
+<script>
+    function getButtonClassString(studentStatus){
+        const bassClass = 'enter_exit';
+        switch(studentStatus) {
+            case "READY_TO_ENTER":
+                return `${bassClass} bg-primary`;
+            case "READY_TO_EXIT":
+                return `${bassClass} bg-warning`;
+            case "LEFT":
+                return `${bassClass} bg-secondary`;
+            default:
+                throw("student status: " + studentStatus + " is not supported");
+        }
     }
-}
+</script>
 
+<?php 
+    function getAlignFromIndex($index) {
+        $mod = $index % 3; 
+        switch ($mod) {
+            case 0:
+                return 'start';
+            case 1:
+                return 'center';
+            case 2:
+                return 'end';
+        }
+    }
+    // PHP, js is in the script section above, they should be synced
+    function getButtonClassString($studentStatus){
+        $base_class = 'enter_exit';
+        switch($studentStatus) {
+            case "READY_TO_ENTER":
+                return $base_class . ' bg-primary';
+            case "READY_TO_EXIT":
+                return $base_class . ' bg-warning';
+            case "LEFT":
+                return $base_class . ' bg-secondary';
+            default:
+                throw("student status: ".$studentStatus . " is not supported");
+        }
+    }
 ?>
 
 <?= $this->Html->script('realtimeClock'); ?>
 <div class="mt-2 d-flex align-content-start flex-wrap">
     <div class='container-fluid' style="margin-bottom: 20px;">
         <div class="d-md-flex p-2">
-            <div style="margin-right: 8px;"><button type="button" class="btn btn-primary"></button>ログイン</div>
-            <div style="margin-right: 8px;"><button type="button" class="btn btn-warning"></button>サインアウト</div>
-            <div style="margin-right: 8px;"><button type="button" class="btn btn-secondary"></button>教室を出た</div>
+            <div style="margin-right: 8px;"><button type="button" class="btn btn-primary"></button>初期狀態</div>
+            <div style="margin-right: 8px;"><button type="button" class="btn btn-warning"></button>入室</div>
+            <div style="margin-right: 8px;"><button type="button" class="btn btn-secondary"></button>退室</div>
         </div>
     </div>
     <?php if(empty($students)): ?>
         <p>There is no student.</p>
     <?php endif; ?>
-    <div style="width: 740px;">
+    <div style="width: 760px;">
+     <div class="row" style="max-height: 800px; overflow: scroll;">
         <?php foreach($students as $index => $student): ?>
-            <div style="width:240px; text-align: <?= getAlignFromIndex($index) ?>; display: inline-block; margin-bottom: 32px; padding: 0px 4px;"> 
+            <div class="col-sm-4 col-md-4 mb-4"> 
                 <?= $this->Form->button(
                     $student_raw_names[$index],
                     [
                         'id' => $student->id,
-                        'class' => $student_states[$index] === 'READY_TO_ENTER' ?
-                            'enter_exit btn btn-lg btn-primary btn-block' :
-                            ($student_states[$index] === 'READY_TO_EXIT' ? 'enter_exit btn btn-lg btn-warning': 'enter_exit btn btn-lg btn-secondary btn-block'),
-                        // 'disabled' => $student_states[$index] === 'LEFT',
+                        'class' => getButtonClassString($student_states[$index]),
                         'student_status' => $student_states[$index],
+                        'style' => 'width: 100%; height: 62px; padding: 0px 12px 0px 12px; overflow: hidden;'
                     ])
                 ?>
             </div>
         <?php endforeach;?>
+        </div>
     </div>
 </div>
 
@@ -88,29 +117,25 @@ function getAlignFromIndex($index) {
             // of this class.
             const classEventID = "<?= $event_id ?>";
             const classroomName = "<?= $classroom_name ?>";
-            // console.log('csrfToken', csrfToken);
 
             // Update the button look accordingly.
             switch (e.target.getAttribute('student_status')) {
                 case 'READY_TO_ENTER':
-                    e.target.className = 'enter_exit me-3 w-15 btn btn-lg btn-warning';
+                    e.target.className = getButtonClassString('READY_TO_EXIT');
                     e.target.setAttribute('student_status', 'READY_TO_EXIT');
                     break;
 
                 case 'READY_TO_EXIT':
-                    e.target.className = 'enter_exit me-3 w-15 btn btn-lg btn-secondary';
+                    e.target.className=getButtonClassString('LEFT');
                     e.target.setAttribute('student_status', 'LEFT');
-                    // e.target.setAttribute('disabled', true);
                     break;
                 case 'LEFT':
-                    e.target.className = 'enter_exit me-3 w-15 btn btn-lg btn-primary';
+                    e.target.className = getButtonClassString('READY_TO_ENTER');
                     e.target.setAttribute('student_status', 'READY_TO_ENTER');
-                    // e.target.setAttribute('disabled', true);
                     break;
             }
 
             const newStudentStatus = e.target.getAttribute('student_status');
-            // console.log('newStudentStatus', newStudentStatus);
             // The function to
             // 1. Update student status
             // 2. Log into enter_exit_logs table

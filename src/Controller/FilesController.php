@@ -162,6 +162,9 @@ class FilesController extends AppController
             }
 
             if($type == 'parents') {
+                // loop through parents and add created time
+                // $this->log($data, 'debug');
+
                 $parent = $this->Parents->newEntities($data);
                 if($this->Parents->saveMany($parent)) {
                     $this->Flash->success(__(env('DEBUG') ? 'File uploaded successfully' : 'ファイルが正常にアップロードされました'));
@@ -170,21 +173,22 @@ class FilesController extends AppController
                 }
             }
             else if($type == 'parents_email') {
+                // We should not filter out duplicate emails, but leaving it here just in case.
                 // filter duplicate email
-                $email_set = array();
-                $filtered_data = [];
-                for($i = 0; $i < count($data); $i++) {
-                    $size_before_setting = count($email_set);
-                    // $this->log('size before: '.$size_before_setting, 'error');
-                    $email_set[$data[$i]['email']] = true;
-                    $size_after_setting = count($email_set);
-                    // $this->log('size after: '.$size_after_setting, 'error');
-                    if($size_after_setting == $size_before_setting + 1) {
-                        $filtered_data[] = $data[$i];
-                    }
-                }
+                // $email_set = array();
+                // $filtered_data = [];
+                // for($i = 0; $i < count($data); $i++) {
+                //     $size_before_setting = count($email_set);
+                //     // $this->log('size before: '.$size_before_setting, 'error');
+                //     $email_set[$data[$i]['email']] = true;
+                //     $size_after_setting = count($email_set);
+                //     // $this->log('size after: '.$size_after_setting, 'error');
+                //     if($size_after_setting == $size_before_setting + 1) {
+                //         $filtered_data[] = $data[$i];
+                //     }
+                // }
 
-                $email = $this->Emails->newEntities($filtered_data);
+                $email = $this->Emails->newEntities($data);
                 if($this->Emails->saveMany($email)) {
                     $this->Flash->success(__(env('DEBUG') ? 'File uploaded successfully' : 'ファイルが正常にアップロードされました'));
                 } else {
@@ -192,6 +196,7 @@ class FilesController extends AppController
                 }
             }
             else {
+                // $this->log($data, 'debug');
                 $student = $this->Students->newEntities($data);
                 if($this->Students->saveMany($student)) {
                     $this->Flash->success(__(env('DEBUG') ? 'File uploaded successfully' : 'ファイルが正常にアップロードされました'));

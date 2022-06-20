@@ -35,7 +35,7 @@
         </div>
         <div class="d-flex justify-content-around">
             <?= $this->Html->link(
-                env('DEBUG', false) ? 'Register' :'登録',
+                env('DEBUG', false) ? 'Register' :'新規登録',
                 ['action' => 'register'],
                 [
                     'class' => 'w-15 btn btn-lg btn-secondary',
@@ -43,7 +43,7 @@
                 ])
             ?>
             <?= $this->Form->button(
-                env('DEBUG', false) ? 'Login' : 'サインイン',
+                env('DEBUG', false) ? 'Login' : 'Ok',
                 [ 'class' => 'w-15 btn btn-lg btn-primary' ])
             ?>
         </div>
