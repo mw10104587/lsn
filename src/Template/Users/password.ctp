@@ -1,4 +1,4 @@
-<h1><?= env('DEBUG', false) ? 'Change Password': 'パスワードを変更する' ?></h1>
+<h1><?= env('DEBUG', false) ? 'Change Password': 'パスワード変更' ?></h1>
 <?= $this->Form->create($user); ?>
 <?= $this->Form->control(
     'username',
@@ -6,7 +6,7 @@
         'id' => 'username',
         'class' => 'form-control',
         'label' => [
-            'text' => env('DEBUG') ? 'User Name': 'ユーザー名',
+            'text' => env('DEBUG') ? 'User Name': 'ユーザー名(ID)',
             'for' => 'username',
             'class' => 'form-label'
         ],

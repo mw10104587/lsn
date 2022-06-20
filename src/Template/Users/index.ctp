@@ -1,7 +1,8 @@
-<h1><?= env('DEBUG') ? 'User List' : 'ユーザーリスト' ?></h1>
+<h1><?= env('DEBUG') ? 'User List' : 'ユーザー管理' ?></h1>
+<h3><?= env('DEBUG') ? '一覽' : '一覽' ?></h3>
 <?= $this->Html->script('realtimeClock'); ?>
 <?= $this->Html->link(
-        env('DEBUG') ? 'Add User' : 'ユーザーを追加する',
+        env('DEBUG') ? 'Add User' : 'ユーザー追加',
         [ 'action' => 'add' ],
         [
             'class' => 'w-15 btn btn-primary',
@@ -20,10 +21,10 @@
                 'Updated'
             ]: [
                 'ユーザー名',
-                '身元',
-                'アクション',
-                '作成した',
-                '更新しました'
+                'ロール',
+                '管理',
+                '作成日時',
+                '更新日時'
             ]
         );
         ?>
@@ -42,7 +43,7 @@
                 env('DEBUG', false) ? 'Edit' : '編集',
                 ['action' => 'edit', $user->id]) ?>
             <?= $this->Form->postLink(
-                env('DEBUG', false) ? 'Delete' : 'デリート',
+                env('DEBUG', false) ? 'Delete' : '削除',
                 ['action' => 'delete', $user->id],
                 ['confirm' => 'Are you sure?'])
             ?>

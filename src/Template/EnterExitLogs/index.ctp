@@ -40,6 +40,22 @@
     </div>
 </div>
 
+<?php
+function getEnterOrExitDisplayLabel($enter_exit_stored) {
+    switch($enter_exit_stored) {
+        
+        case 'leave': 
+            return '退室';
+        case 'stay':
+            return '入室';
+        case '':
+        case null:
+        default:
+            return '重置';
+    }
+}
+?>
+
 
 <table id="table" class="table table-hover">
     <thead>
@@ -55,9 +71,15 @@
         <?php foreach($results as $result): ?>
             <?= $this->Html->tableCells([
                 [
-                    $result->created,
+                    // https://book.cakephp.org/4/en/core-libraries/time.html#supported-timezones
+                    $this->Time->format(
+                        $result->created,
+                        'yyyy-MM-dd HH:mm:ss',
+                        null,
+                        "Asia/Tokyo"
+                    ),
                     [ $result->student_name, ['class' => 'student_name'] ],
-                    $result->enter_or_exit,
+                    getEnterOrExitDisplayLabel($result->enter_or_exit),
                     $result->phone,
                     $this->Form->button('情報', [
                         'class' => 'btn btn-primary',
@@ -79,7 +101,7 @@
     $(document).ready(() => {
         $('#table').DataTable({
             language: {
-                lengthMenu: '<?= env('DEBUG', false) ? 'display _MENU_ records a page' : '示す _MENU_ ページを記録します' ?>',
+                lengthMenu: '<?= env('DEBUG', false) ? 'display _MENU_ records a page' : '1ページあたり _MENU_ 件表示' ?>',
                 zeroRecords: '<?= env('DEBUG', false) ? 'No data available in table' :'データが空です' ?>',
                 paginate: {
                     "first": '<?= env('DEBUG', false) ? 'First' :'初め' ?>',

@@ -11,7 +11,7 @@
         'id' => 'username',
         'class' => 'form-control',
         'label' => [
-            'text' => env('DEBUG', false) ? 'Username' : 'ユーザー名',
+            'text' => env('DEBUG', false) ? 'Username' : 'ユーザー名(ID)',
             'for' => 'username',
             'class' => 'form-label'
         ],

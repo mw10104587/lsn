@@ -40,7 +40,7 @@ class UsersController extends AppController
             $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__(env('DEBUG') ? 'Your password has been updated.' : 'パスワードが更新されました。'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'password']);
             }
             $this->Flash->error(__(env('DEBUG', false) ? 'Unable to change your password.' : 'パスワードを変更できません。'));
         }
