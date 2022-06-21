@@ -119,6 +119,7 @@ function getEnterOrExitDisplayLabel($enter_exit_stored) {
     });
 
     function getInformation(element) {
+        console.log('element', element);
         let id = element.closest('tr').id;
         let csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
         $.ajax({

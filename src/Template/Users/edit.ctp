@@ -1,4 +1,4 @@
-<h1><?= env('DEBUG', false) ? 'Edit User' : 'ユーザーの編集' ?></h1>
+<h1><?= env('DEBUG', false) ? 'Edit User' : 'ユーザー編集' ?></h1>
 <?= $this->Form->create($user)?>
 <?= $this->Form->control('username',
     [
@@ -6,7 +6,8 @@
         'class' => 'form-control',
         'label' => [
             'for' => 'username',
-            'class' => 'form-label'
+            'class' => 'form-label',
+            'text' => 'ID'
         ],
         'templates' => [
             'inputContainer' => '<div class="mb-3">{{content}}</div>',
@@ -15,23 +16,24 @@
     ])
 ?>
 <div class="mb-3">
-    <?= $this->Form->label('identity', null,
+    <?= $this->Form->label('identity', 'ロール',
         [ 'class' => 'form-label' ])
     ?>
     <?= $this->Form->select('identity',
-        [
-            'admin' => 'admin',
-            'general' => 'general'
-        ],
-        [
-            'class' => 'form-select',
-            'value' => $user->identity
-        ])
+            [
+                'admin' => 'admin',
+                'general' => 'general'
+            ],
+            [
+                'class' => 'form-select',
+                'value' => $user->identity,
+            ]
+        );
     ?>
 </div>
 <div class="float-end">
     <?= $this->Form->button(
-        'Save',
+        '保存する',
         [
             'class' => 'w-15 btn btn-lg btn-primary'
         ])
