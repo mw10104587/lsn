@@ -81,7 +81,7 @@
         $('#table').DataTable(
             {
                 language: {
-                    lengthMenu: '<?= env('DEBUG', false) ? 'display _MENU_ records a page' : '示す _MENU_ ページを記録します' ?>',
+                    lengthMenu: '<?= env('DEBUG', false) ? 'display _MENU_ records a page' : '1ページあたり _MENU_ 件表示' ?>',
                     zeroRecords: '<?= env('DEBUG', false) ? 'No data available in table' :'データが空です' ?>',
                     paginate: {
                         "first": '<?= env('DEBUG', false) ? 'First' :'初め' ?>',
@@ -90,7 +90,7 @@
                         "previous": '<?= env('DEBUG', false) ? 'Previous' :'前' ?>',
                     },
                     infoEmpty:  '<?= env('DEBUG', false) ? 'Showing 0 to 0 of 0 entries' :'0エントリのうち0から0を表示' ?>',
-                    search: '<?= env('DEBUG', false) ? 'Search:': '探す:' ?>',
+                    search: '<?= env('DEBUG', false) ? 'Search:': '検索:' ?>',
                 }
             }
         );

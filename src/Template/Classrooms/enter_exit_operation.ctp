@@ -74,7 +74,7 @@
                         'id' => $student->id,
                         'class' => getButtonClassString($student_states[$index]),
                         'student_status' => $student_states[$index],
-                        'style' => 'width: 100%; height: 62px; padding: 0px 12px 0px 12px; overflow: hidden;'
+                        'style' => 'width: 100%; height: 62px; padding: 0px 12px 0px 12px; overflow: hidden; border: none;'
                     ])
                 ?>
             </div>

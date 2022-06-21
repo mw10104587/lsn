@@ -109,7 +109,8 @@ function getEnterOrExitDisplayLabel($enter_exit_stored) {
                     "next": '<?= env('DEBUG', false) ? 'Next' :'次' ?>',
                     "previous": '<?= env('DEBUG', false) ? 'Previous' :'前' ?>',
                 },
-                infoEmpty:  '<?= env('DEBUG', false) ? 'Showing 0 to 0 of 0 entries' :'0エントリのうち0から0を表示' ?>',
+                info: '<?= env('DEBUG', false) ? 'Showing 0 to 0 of 0 entries' :'0エントリのうち0から0を表示' ?>',
+                infoEmpty:  '<?= env('DEBUG', false) ? 'Showing 0 to 0 of 0 entries' :'Showing page _PAGE_ of _PAGES_' ?>',
                 search: '<?= env('DEBUG', false) ? 'Search:': '探す:' ?>',
                 
             },
