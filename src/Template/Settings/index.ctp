@@ -5,10 +5,6 @@
 <?= $this->Form->label('Google', null,
     [ 'class' => 'form-label' ])
 ?>
-<br>
-<?= $this->Form->label('account', 'アカウント',
-    [ 'class' => 'form-label' ])
-?>
 <div class="mb-3 row">
     <?= $this->Form->label('calendar_id', '対象カレンダー',
         [ 'class' => 'col-sm-2 col-form-label' ])

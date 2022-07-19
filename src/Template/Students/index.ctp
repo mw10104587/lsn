@@ -89,6 +89,7 @@
                         "next": '<?= env('DEBUG', false) ? 'Next' :'次' ?>',
                         "previous": '<?= env('DEBUG', false) ? 'Previous' :'前' ?>',
                     },
+                    info: '<?= env('DEBUG', false) ? 'Showing 0 to 0 of 0 entries' :'_TOTAL_ 件中 _START_ から _END_ まで表示' ?>',
                     infoEmpty:  '<?= env('DEBUG', false) ? 'Showing 0 to 0 of 0 entries' :'0エントリのうち0から0を表示' ?>',
                     search: '<?= env('DEBUG', false) ? 'Search:': '検索:' ?>',
                 }

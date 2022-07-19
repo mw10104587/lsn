@@ -33,10 +33,10 @@ function getJapeneseFormatDate(d) {
         default:
     }
 
-    if (hour > 12) {
-        hour = hour % 12;
-        MV = 'PM';
-    }
+    // if (hour > 12) {
+    //     hour = hour % 12;
+    //     MV = 'PM';
+    // }
 
     hour = ('0' + hour).slice(-2);
     min = ('0' + min).slice(-2);

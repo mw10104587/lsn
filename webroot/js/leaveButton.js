@@ -4,9 +4,10 @@ function leave() {
 
     setTimeout(() => {
         click = 0;
-    }, 1000);
+    }, 1500);
     let successToLeave = (click === 3) ? true : false;
     if(successToLeave){
+        click = 0;
         window.history.back();
     }
 }

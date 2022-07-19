@@ -53,6 +53,7 @@
 ?>
 
 <?= $this->Html->script('realtimeClock'); ?>
+<?= $this->Html->css('enterExit'); ?>
 <div class="mt-2 d-flex align-content-start flex-wrap">
     <div class='container-fluid' style="margin-bottom: 20px;">
         <div class="d-md-flex p-2">
@@ -65,7 +66,7 @@
         <p>There is no student.</p>
     <?php endif; ?>
     <div style="width: 760px;">
-     <div class="row" style="max-height: 800px; overflow-x: hidden; overflow-y: auto;">
+     <div class="row" style='height: 550px; overflow-x: hidden; overflow-y: scroll; padding-bottom: 30px;'>
         <?php foreach($students as $index => $student): ?>
             <div class="col-sm-4 col-md-4 mb-4"> 
                 <?= $this->Form->button(
@@ -88,7 +89,7 @@
     [
         'id' => 'leave',
         'onclick' => 'leave()',
-        'style' => 'position: absolute; bottom: 0; right: 0; height: 150px; width: 150px; opacity: 0;'
+        'style' => 'position: absolute; bottom: 0; right: 0; height: 150px; width: 150px; opacity: 0.01; z-index: 1000;'
     ])
 ?>
 

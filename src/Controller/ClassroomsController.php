@@ -255,7 +255,7 @@ class ClassroomsController extends AppController
 
     private function parseStudentNameFromEventTitle($event_title) {
         $name_fractions = explode(' ', trim($event_title));
-        $space_cleaned = $name_fractions[0].$name_fractions[1];
+        $space_cleaned = sizeof($name_fractions) == 1 ? $name_fractions[0]: $name_fractions[0].$name_fractions[1];
 
         // There will be names like 水谷哈哈(みろく)
         // notice that there's no space between the left parenthesis and
