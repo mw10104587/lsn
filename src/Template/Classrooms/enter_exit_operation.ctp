@@ -65,8 +65,8 @@
     <?php if(empty($students)): ?>
         <p>There is no student.</p>
     <?php endif; ?>
-    <div style="width: 760px;">
-     <div class="row" style='height: 550px; overflow-x: hidden; overflow-y: scroll; padding-bottom: 30px;'>
+    <div style="width: 780px; height: 550px; overflow-y: scroll;">
+     <div class="row" style='padding-bottom: 30px;'>
         <?php foreach($students as $index => $student): ?>
             <div class="col-sm-4 col-md-4 mb-4"> 
                 <?= $this->Form->button(
