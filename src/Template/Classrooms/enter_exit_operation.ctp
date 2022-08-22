@@ -96,21 +96,75 @@
 <?= $this->Html->script('leaveButton'); ?>
 <?= $this->Html->css('scrollBarFix'); ?>
 
-<?= $this->Html->script('enterExitApis'); ?>
+<!-- <?= $this->Html->script('enterExitApis'); ?> -->
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
 
 <script>
+
+    const TIMEOUT = 5000;
+
     $(document).ready(() => {
         // For different buttons, we need different debounce function
         const debounceMap = {}; 
+        // Manage timeout function calls, so before we leave the page, we can update the status of 
+        // all the students 
+        const timeoutIDs = {};
+
+
+        function timeoutChangeStatus(csrfToken, studentId, classEventID, classroomName, newStudentStatus) {
+            const timeoutID = setTimeout(
+                () => {changeStatus(csrfToken, studentId, classEventID, classroomName, newStudentStatus)}, 
+                TIMEOUT
+            );
+
+            setTimeout(() => {
+              delete timeoutIDs[timeoutID];
+            }, TIMEOUT);
+
+            // Store the timeout ID 
+            timeoutIDs[timeoutID] = {
+                csrfToken,
+                studentId,
+                classEventID,
+                classroomName,
+                newStudentStatus
+            };
+        }
+
+
+        function changeStatus(csrfToken, studentId, classEventId, classroomName, newStudentStatus) {
+            const _classEventId = classEventId == null ? 'TEST_CALENDAR_EVENT_ID' : classEventId;
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                method: 'POST',
+                url: '/apis/enterExit/' + studentId,
+                "headers": {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    'X-CSRF-Token': csrfToken
+                },
+                "data": {
+                    "class_event_id": _classEventId,
+                    "classroom_name": classroomName,
+                    "new_status": newStudentStatus,
+                },
+                crossDomain: true,
+                xhrFields: { withCredentials: true },
+                dataType: 'json',
+                success: (res) => {
+                    console.log('change status is successful');
+                },
+            }).done((res) => {
+                console.log('res', res);
+            });
+        }
+
 
         $('.enter_exit').on('click', (e) => {
             const csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
             const studentId = e.target.id;
 
             if(!(studentId in debounceMap)) {
-                // console.log('studentId', studentId);
-                debounceMap[studentId] = _.debounce(changeStatus, 100);
+                debounceMap[studentId] = _.debounce(timeoutChangeStatus, 500, false /* immediate */);
             }
             const debounceFuncForStudent = debounceMap[studentId];
 
@@ -147,8 +201,25 @@
                 classEventID,
                 classroomName,
                 newStudentStatus
-            );
+            );    
 
-        })
+        });
+
+        $(window).on('beforeunload', function(){
+            // execute the status change before user leave the page
+            for ( const [timeoutID, varObject] of Object.entries(timeoutIDs) ) {
+                const {
+                    csrfToken,
+                    studentId,
+                    classEventID,
+                    classroomName,
+                    newStudentStatus
+                } = varObject;
+
+                changeStatus(csrfToken, studentId, classEventID, classroomName, newStudentStatus);
+                delete timeoutIDs[timeoutID];
+            }
+        });
+
     });
 </script>
