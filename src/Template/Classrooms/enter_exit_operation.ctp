@@ -53,10 +53,9 @@
 ?>
 
 <?= $this->Html->script('realtimeClock'); ?>
-<?= $this->Html->css('enterExit'); ?>
 <div class="mt-2 d-flex align-content-start flex-wrap">
     <div class='container-fluid' style="margin-bottom: 20px;">
-        <div class="d-md-flex p-2">
+        <div class="d-flex p-2">
             <div style="margin-right: 8px;"><button type="button" class="btn btn-primary"></button>初期狀態</div>
             <div style="margin-right: 8px;"><button type="button" class="btn btn-warning"></button>入室</div>
             <div style="margin-right: 8px;"><button type="button" class="btn btn-secondary"></button>退室</div>
@@ -65,33 +64,56 @@
     <?php if(empty($students)): ?>
         <p>There is no student.</p>
     <?php endif; ?>
-    <div style="width: 780px; height: 550px; overflow-y: scroll;">
-     <div class="row" style='padding-bottom: 30px;'>
-        <?php foreach($students as $index => $student): ?>
-            <div class="col-sm-4 col-md-4 mb-4"> 
-                <?= $this->Form->button(
-                    $student_raw_names[$index],
-                    [
-                        'id' => $student->id,
-                        'class' => getButtonClassString($student_states[$index]),
-                        'student_status' => $student_states[$index],
-                        'style' => 'width: 100%; height: 62px; padding: 0px 12px 0px 12px; overflow: hidden; border: none;'
-                    ])
-                ?>
+    <div id="student-buttons-table" style="width: 780px; overflow-y: scroll; overflow-x: none;">
+        <?php for($i = 0; $i < sizeof($students); $i = $i + 3): ?> 
+            <div class="row">
+                <?php if($i < sizeof($students) ): ?>
+                    <div class="col-sm-4 col-md-4 pb-4"> 
+                        <?= $this->Form->button(
+                            $student_raw_names[$i],
+                            [
+                                'id' => $students[$i]->id,
+                                'class' => getButtonClassString($student_states[$i]),
+                                'student_status' => $student_states[$i],
+                                'style' => 'width: 100%; height: 62px; padding: 0px 12px 0px 12px; overflow: hidden; border: none;'
+                            ])
+                        ?>
+                    </div>
+                <?php endif; ?>
+                <?php if($i+1 < sizeof($students) ): ?>
+                    <div class="col-sm-4 col-md-4 pb-4">
+                        <?= $this->Form->button(
+                            $student_raw_names[$i+1],
+                            [
+                                'id' => $students[$i+1]->id,
+                                'class' => getButtonClassString($student_states[$i+1]),
+                                'student_status' => $student_states[$i+1],
+                                'style' => 'width: 100%; height: 62px; padding: 0px 12px 0px 12px; overflow: hidden; border: none;'
+                            ])
+                        ?>
+                    </div>
+                <?php endif; ?>
+                <?php if($i+2 < sizeof($students) ): ?>
+                    <div class="col-sm-4 col-md-4 pb-4">
+                        <?= $this->Form->button(
+                            $student_raw_names[$i+2],
+                            [
+                                'id' => $students[$i+2]->id,
+                                'class' => getButtonClassString($student_states[$i+2]),
+                                'student_status' => $student_states[$i+2],
+                                'style' => 'width: 100%; height: 62px; padding: 0px 12px 0px 12px; overflow: hidden; border: none;'
+                            ])
+                        ?>
+                    </div>
+                <?php endif; ?>
             </div>
-        <?php endforeach;?>
-        </div>
+        <?php endfor; ?>
     </div>
 </div>
 
-<?= $this->Form->button(
-    'Leave Button',
-    [
-        'id' => 'leave',
-        'onclick' => 'leave()',
-        'style' => 'position: absolute; bottom: 0; right: 0; height: 150px; width: 150px; opacity: 0.01; z-index: 1000;'
-    ])
-?>
+<!-- Hidden Back button: takes the user back to previous page after clicking on it three times. -->
+<div id="leave" onClick='leave()' style="position: absolute; bottom: 0; right: 0; height: 150px; width: 150px; opacity: 0.5; z-index: 1000; font-size: 50px;"></div>
+
 
 <?= $this->Html->script('leaveButton'); ?>
 <?= $this->Html->css('scrollBarFix'); ?>

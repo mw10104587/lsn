@@ -3,3 +3,11 @@ html, body {
 	height: 100%;
 	overflow: hidden;
 }
+
+#student-buttons-table {
+	/* 134 px is the url bar and the tabs height of the browser */
+	/* 142 px is the content in our webpage including calendar details and button legends */
+	height: calc(100vh - 142px - 132px);
+	margin-bottom: 16px;
+	padding-bottom: 16px;
+}

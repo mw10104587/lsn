@@ -27,15 +27,14 @@ if (!Configure::read('debug')) :
     );
 endif;
 
-$cakeDescription = 'CakePHP: the rapid development PHP framework';
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>
-        <?= $cakeDescription ?>
+        LSN
     </title>
 
     <?= $this->Html->meta('icon') ?>
@@ -57,15 +56,6 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
     <div class="columns large-12">
         <div class="ctp-warning alert text-center">
             <p>Please be aware that this page will not be shown if you turn off debug mode unless you replace src/Template/Pages/home.ctp with your own version.</p>
-        </div>
-        <div id="url-rewriting-warning" class="alert url-rewriting">
-            <ul>
-                <li class="bullet problem">
-                    URL rewriting is not properly configured on your server.<br />
-                    1) <a target="_blank" href="https://book.cakephp.org/3/en/installation.html#url-rewriting">Help me configure it</a><br />
-                    2) <a target="_blank" href="https://book.cakephp.org/3/en/development/configuration.html#general-configuration">I don't / can't use URL rewriting</a>
-                </li>
-            </ul>
         </div>
         <?php Debugger::checkSecurityKeys(); ?>
     </div>
@@ -177,10 +167,6 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
     </div>
     <div class="columns large-6">
         <h3>Getting Started</h3>
-        <ul>
-            <li class="bullet book"><a target="_blank" href="https://book.cakephp.org/3/en/">CakePHP 3.0 Docs</a></li>
-            <li class="bullet book"><a target="_blank" href="https://book.cakephp.org/3/en/tutorials-and-examples/cms/installation.html">The 20 min CMS Tutorial</a></li>
-        </ul>
     </div>
 </div>
 
@@ -225,10 +211,6 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
             <li class="bullet cutlery">
                 <a href="https://api.cakephp.org/3.0/">CakePHP API</a>
                 <ul><li>Quick Reference</li></ul>
-            </li>
-            <li class="bullet cutlery">
-                <a href="https://book.cakephp.org/3/en/">CakePHP Documentation</a>
-                <ul><li>Your Rapid Development Cookbook</li></ul>
             </li>
             <li class="bullet cutlery">
                 <a href="https://bakery.cakephp.org">The Bakery</a>
